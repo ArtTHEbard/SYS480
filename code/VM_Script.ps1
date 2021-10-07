@@ -26,6 +26,7 @@ foreach($vm in $vms){
 }
 
 function Choose_VM {
+# Choose a Base VM for clones
     $vm_base = $null
     $vm_choice = Read-Host -Prompt "Choose an avaliable VM: "
     try {
@@ -40,6 +41,7 @@ function Choose_VM {
 }
 
 function Choose_VMHost {
+# Choose the VM Host
     $hosts = Get-VMHost
     Write-Host "Avaliable VM Hosts: " `n $hosts
     $host_choice = Read-Host -Prompt "Please Select VM Host: "
@@ -55,6 +57,7 @@ function Choose_VMHost {
 }
 
 function Choose_Data($vmhost) {
+# Choose the Datastore
     $input = $vmhost
     $datastores = $input | Get-Datastore
     Write-Host "Avaliable VM Datastores: " `n $datastores
@@ -71,10 +74,12 @@ function Choose_Data($vmhost) {
 }
 
 function Choose_Name{
+# Choose the VM Name
     $name = Read-Host -Prompt "Please enter the name for new VM: "
     return $name
 }
 function Choose_Type{
+# Choose the Clone Type
     $type = Read-Host -Prompt "Create a [L]inked Clone or [F]ull Clone? Enter [L] or [F]" -ForegroundColor Cyan
 
     if ($type -eq "L"){
@@ -91,6 +96,7 @@ function Choose_Type{
 }
 
 function Linked_Clone($name, $vm, $vmhost, $data){
+# Linked Clone Creation
     $base_option = Get-Snapshot -VM $vm
     Write-Host "Avalible Snapshots: " `n $base_option
     $snap_choice = Read-Host -Prompt "Enter name of VM snapshot: "
@@ -127,6 +133,7 @@ function Linked_Clone($name, $vm, $vmhost, $data){
 }
 
 function Full_Clone($name, $vm, $vmhost, $data){
+# Full CLone Creation
     $base_option = Get-Snapshot -VM $vm
     Write-Host "Avalible Snapshots: " `n $base_option
     $snap_choice = Read-Host -Prompt "Enter name of VM snapshot: "
@@ -179,6 +186,7 @@ function Full_Clone($name, $vm, $vmhost, $data){
 }
 
 function Network_Adapter($vm){
+# Change Network Adapter
     $vm = $vm
     $net = Read-Host -Prompt "What network would you like the VM set to: "
     $adapter = Get-NetworkAdapter -VM $vm 
@@ -193,6 +201,7 @@ function Network_Adapter($vm){
     
 }
 function Create_VM{
+# Comprehensive Creation Function
     Connect-Server
     Select-Base-Folder
     $vm_base = Choose_VM
@@ -221,5 +230,5 @@ function Create_VM{
     }else {
         Write-Host "Invalid responce processed as N. Proceeding." -ForegroundColor Cyan
 }
-
+}
 Create_VM
