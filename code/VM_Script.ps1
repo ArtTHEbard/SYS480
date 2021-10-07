@@ -26,21 +26,23 @@ foreach($vm in $vms){
 }
 
 function Choose_VM {
-$vm_choice = Read-Host -Prompt "Choose an avaliable VM: "
-try {
-    $vm_base = Get-Vm -Name $vm_choice -ErrorAction Stop
-    Write-Host "Chosen VM: $vm_base" -ForegroundColor Green
-}
-catch {
-    Write-Host "Invalid VM Name" -ForegroundColor Red
-    Choose_VM
-}
+    $vm_base = $null
+    $vm_choice = Read-Host -Prompt "Choose an avaliable VM: "
+    try {
+        $vm_base = Get-Vm -Name $vm_choice -ErrorAction Stop
+        Write-Host "Chosen VM: $vm_base" -ForegroundColor Green
+    }
+    catch {
+            Write-Host "Invalid VM Name" -ForegroundColor Red
+        Choose_VM
+    }
+    return $vm_base
 }
 
-function Choose_VMHost{
+function Choose_VMHost_Data{
     $hosts = Get-VMHost
     $vmhost = $null
-    Write-Host "Avaliable VM Hosts" `n $hosts
+    Write-Host "Avaliable VM Hosts: " `n $hosts
     $host_choice = Read-Host -Prompt "Please Select VM Host: "
     try {
         $vmhost = Get-VMHost -Name $host_choice -ErrorAction Stop
@@ -50,13 +52,9 @@ function Choose_VMHost{
         Write-Host "Invalid Host" -ForegroundColor Red 
         Choose_VMHost
     }
-    return $vmhost
-}
-
-function Choose_Datastore($vm_host){
-    Write-Host $vm_host
-    $datastores = $vm_host | Get-Datastore
-    Write-Host "Avaliable VM Datastores" `n $datastores
+    $ds = $null
+    $datastores = $vmhost | Get-Datastore
+    Write-Host "Avaliable VM Datastores: " `n $datastores
     $ds_choice = Read-Host -Prompt "Enter name of datastore: "
     try {
         $ds = Get-VMHost -Name $ds_choice -ErrorAction Stop
@@ -66,7 +64,10 @@ function Choose_Datastore($vm_host){
         Write-Host "Invalid Datastore" -ForegroundColor Red 
         Choose_Datastore
     }
+    return $vmhost, $ds
 }
+
+
 function Choose_Type{
     $type = Read-Host -Prompt "Create a [L]inked Clone or [F]ull Clone? Enter [L] or [F]"
 
@@ -103,8 +104,7 @@ function Full_Clone{
 Connect-Server
 #$basefolder= Select-Base-Folder
 #$vm_base = Choose_VM
-$vmhost = Choose_VMHost
-Write-host $vmhost
-#$ds = Choose_Datastore($vmhost)
+Choose_VMHost_Data
+Write-Host $vmhost $ds
 #Choose_Type
 
