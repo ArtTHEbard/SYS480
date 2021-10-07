@@ -75,7 +75,7 @@ function Choose_Name{
     return $name
 }
 function Choose_Type{
-    $type = Read-Host -Prompt "Create a [L]inked Clone or [F]ull Clone? Enter [L] or [F]"
+    $type = Read-Host -Prompt "Create a [L]inked Clone or [F]ull Clone? Enter [L] or [F]" -ForegroundColor Cyan
 
     if ($type -eq "L"){
         Write-Host "Linked Clone Selected" -ForegroundColor Green
@@ -108,7 +108,7 @@ function Linked_Clone($name, $vm, $vmhost, $data){
     Snapshot: $snap
     VM Host: $vmhost
     Datastore: $data" -ForegroundColor Cyan
-    $choice = Read-Host -Prompt "Would you like to proceed? [Y]/[N]"
+    $choice = Read-Host -Prompt "Would you like to proceed? [Y]/[N]" -ForegroundColor Cyan
     if ($choice -eq "Y"){
         try{$newvm = New-Vm -name $name -VM $vm -LinkedClone -ReferenceSnapshot $snap -VmHost $vmhost -Datastore $data -ErrorAction Stop
         Write-Host "VM Creation Successful!" -ForegroundColor Green}
@@ -144,7 +144,7 @@ function Full_Clone($name, $vm, $vmhost, $data){
     Snapshot: $snap
     VM Host: $vmhost
     Datastore: $data" -ForegroundColor Cyan
-    $choice = Read-Host -Prompt "Would you like to proceed? [Y]/[N]"
+    $choice = Read-Host -Prompt "Would you like to proceed? [Y]/[N]" -ForegroundColor Cyan
     if ($choice -eq "Y"){
         $linkedname = "{0}.linked" -f $vm.Name
         try {
@@ -178,6 +178,20 @@ function Full_Clone($name, $vm, $vmhost, $data){
     }  
 }
 
+function Network_Adapter($vm){
+    $vm = $vm
+    $net = Read-Host -Prompt "What network would you like the VM set to: "
+    $adapter = Get-NetworkAdapter -VM $vm 
+    try {
+        Set-NetworkAdapter -NetworkAdapter $adapter -NetworkName $net -Confirm:$false -ErrorAction Stop
+        Write-Host "Success!" -ForegroundColor Green 
+    }
+    catch {
+        Write-Host "Error! Invalid Network Name"
+        Network_Adapter -vm $vm
+    }
+    
+}
 function Create_VM{
     Connect-Server
     Select-Base-Folder
@@ -191,7 +205,21 @@ function Create_VM{
     }elseif ($choice -eq "Full"){
         Full_Clone -name $name -vm $vm_base -vmhost $vmhost -data $ds
     }
+    $network = Read-Host -Prompt "Would you like to change the Network Adapter? [Y]/[N]: " -ForegroundColor Cyan
+    if ($network -eq "Y"){
+        Network_Adapter -vm $name
+    }elseif ($network -eq "N") {
+        Write-Host "Understood. Proceeding." -ForegroundColor Cyan
+    }else {
+        Write-Host "Invalid responce processed as N. Proceeding." -ForegroundColor Cyan
+    }
+    $power = Read-Host -Prompt "Would you like to power on the new VM? [Y]/[N]: " -ForegroundColor Cyan
+    if ($power -eq "Y"){
+        Start-VM -VM $name
+    }elseif ($power -eq "N") {
+        Write-Host "Understood. Proceeding." -ForegroundColor Cyan
+    }else {
+        Write-Host "Invalid responce processed as N. Proceeding." -ForegroundColor Cyan
 }
 
 Create_VM
-
