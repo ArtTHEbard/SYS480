@@ -39,9 +39,8 @@ function Choose_VM {
     return $vm_base
 }
 
-function Choose_VMHost_Data{
+function Choose_VMHost {
     $hosts = Get-VMHost
-    $vmhost = $null
     Write-Host "Avaliable VM Hosts: " `n $hosts
     $host_choice = Read-Host -Prompt "Please Select VM Host: "
     try {
@@ -50,61 +49,149 @@ function Choose_VMHost_Data{
     }
     catch {
         Write-Host "Invalid Host" -ForegroundColor Red 
-        Choose_VMHost
+        Choose_VMHost_Data
     }
-    $ds = $null
-    $datastores = $vmhost | Get-Datastore
+    return $vmhost
+}
+
+function Choose_Data($vmhost) {
+    $input = $vmhost
+    $datastores = $input | Get-Datastore
     Write-Host "Avaliable VM Datastores: " `n $datastores
     $ds_choice = Read-Host -Prompt "Enter name of datastore: "
     try {
-        $ds = Get-VMHost -Name $ds_choice -ErrorAction Stop
+        $ds = Get-Datastore -Name $ds_choice -ErrorAction Stop
         Write-Host "Selected Datastore: $ds" -ForegroundColor Green
     }
     catch {
         Write-Host "Invalid Datastore" -ForegroundColor Red 
-        Choose_Datastore
+        Choose_Data($input)
     }
-    return $vmhost, $ds
+    return $ds
 }
 
-
+function Choose_Name{
+    $name = Read-Host -Prompt "Please enter the name for new VM: "
+    return $name
+}
 function Choose_Type{
     $type = Read-Host -Prompt "Create a [L]inked Clone or [F]ull Clone? Enter [L] or [F]"
 
     if ($type -eq "L"){
         Write-Host "Linked Clone Selected" -ForegroundColor Green
-        Linked_Clone
+        $choice = "Linked"
     }elseif ($type -eq "F") {
         Write-Host "Full Clone Selected" -ForegroundColor Green
-        Full_Clone
+        $choice = "Full"
     }else {
         Write-Host "Invlaid Choice" -ForegroundColor Red
         Choose_Type
     } 
+    return $choice
 }
 
-function Linked_Clone{
+function Linked_Clone($name, $vm, $vmhost, $data){
+    $base_option = Get-Snapshot -VM $vm
+    Write-Host "Avalible Snapshots: " `n $base_option
     $snap_choice = Read-Host -Prompt "Enter name of VM snapshot: "
     try {
-        $snap = Get-Snapshot -VM $vm_base -Name $snap_choice
+        $snap = Get-Snapshot -VM $vm -Name $snap_choice -ErrorAction Stop
+        Write-Host "Selected Snapshot: $snap" -ForegroundColor Green
     }
     catch {
-        Write-Host "No Snapshot Found" -ForegroundColor Red -ErrorAction Stop
+        Write-Host "No Snapshot Found" -ForegroundColor Red 
         Linked_Clone
-
     }
-
+    Write-Host "You are about to create a Linked Clone VM with the following inputs:
+    Name: $name
+    Base VM: $vm
+    Snapshot: $snap
+    VM Host: $vmhost
+    Datastore: $data" -ForegroundColor Cyan
+    $choice = Read-Host -Prompt "Would you like to proceed? [Y]/[N]"
+    if ($choice -eq "Y"){
+        try{$newvm = New-Vm -name $name -VM $vm -LinkedClone -ReferenceSnapshot $snap -VmHost $vmhost -Datastore $data -ErrorAction Stop
+        Write-Host "VM Creation Successful!" -ForegroundColor Green}
+        catch{
+            Write-Host "Error! Cancelling Operation!" -ForegroundColor Red
+            Create_VM
+        }
+    }elseif ($choice -eq "N"){
+        Write-Host "Operation Canceled!" -ForegroundColor Red
+        Create_VM
+    }else{
+        Write-Host "Invalid Answer. Cancelling Operation" -ForegroundColor Red
+        Create_VM 
+    }
+     
 }
 
-function Full_Clone{
-    
+function Full_Clone($name, $vm, $vmhost, $data){
+    $base_option = Get-Snapshot -VM $vm
+    Write-Host "Avalible Snapshots: " `n $base_option
+    $snap_choice = Read-Host -Prompt "Enter name of VM snapshot: "
+    try {
+        $snap = Get-Snapshot -VM $vm -Name $snap_choice -ErrorAction Stop
+        Write-Host "Selected Snapshot: $snap" -ForegroundColor Green
+    }
+    catch {
+        Write-Host "No Snapshot Found" -ForegroundColor Red 
+        Linked_Clone
+    }
+    Write-Host "You are about to create a Full Clone VM with the following inputs:
+    Name: $name
+    Base VM: $vm
+    Snapshot: $snap
+    VM Host: $vmhost
+    Datastore: $data" -ForegroundColor Cyan
+    $choice = Read-Host -Prompt "Would you like to proceed? [Y]/[N]"
+    if ($choice -eq "Y"){
+        $linkedname = "{0}.linked" -f $vm.Name
+        try {
+            $linkedvm = New-Vm -Name $linkedname -VM $vm -LinkedClone -ReferenceSnapshot $snap -VmHost $vmhost -Datastore $data -ErrorAction Stop
+            $newvm = New-Vm -name $name -VM $linkedvm -VmHost $vmhost -Datastore $data -ErrorAction Stop
+            Write-Host "VM Creation Successful!" -ForegroundColor Green
+
+        }
+        catch {
+            Write-Host "Error! Cancelling Operation."
+            Create_VM
+        }
+    }elseif ($choice -eq "N"){
+        Write-Host "Operation Canceled!" -ForegroundColor Red
+        Create_VM
+    }else{
+        Write-Host "Invalid Answer. Cancelling Operation" -ForegroundColor Red
+        Create_VM 
+    }
+    $del = Read-Host "Delete temporary clone: $linkedvm ? [Y]/[N]" -ForegroundColor Red
+    if ($del -eq "Y"){
+        try {
+            Remove-VM -Name $linkedvm -ErrorAction Stop
+            Write-Host "Temp Clone Deleted" -ForegroundColor Green
+        }
+        catch {
+            Write-Host "An Error has occured. Please verify deletion in Vcenter Portal."
+        }
+    }else {
+        Write-Host "Understood. Please delete the temp clone from the Vcenter Portal."
+    }  
 }
 
+function Create_VM{
+    Connect-Server
+    Select-Base-Folder
+    $vm_base = Choose_VM
+    $vmhost = Choose_VMHost
+    $ds = Choose_Data($vmhost)
+    $name = Choose_Name
+    $choice = Choose_Type
+    if ($choice -eq "Linked"){
+        Linked_Clone -name $name -vm $vm_base -vmhost $vmhost -data $ds
+    }elseif ($choice -eq "Full"){
+        Full_Clone -name $name -vm $vm_base -vmhost $vmhost -data $ds
+    }
+}
 
-Connect-Server
-#$basefolder= Select-Base-Folder
-#$vm_base = Choose_VM
-Choose_VMHost_Data
-Write-Host $vmhost $ds
-#Choose_Type
+Create_VM
 
