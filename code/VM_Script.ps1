@@ -3,11 +3,12 @@
 function Connect-Server {
 # Connect to VI-Server
 try {
-    Connect-VIServer -Server vcenter.sjohnson.local -User "sjohnson-adm" -Password "Thebainted1" -ErrorAction Stop
+    Connect-VIServer -Server vcenter.sjohnson.local -ErrorAction Stop
     Write-Host "Connected" -ForegroundColor Green
 }
 catch {
     Write-Host "Unable to Connect. Please try again later."
+    exit
     }
 }
 
