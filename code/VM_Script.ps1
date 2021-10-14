@@ -2,9 +2,14 @@
 # Author: Sam Johnson
 function Connect-Server {
 # Connect to VI-Server
-Connect-VIServer -Server vcenter.sjohnson.local -User "sjohnson-adm" -Password "Thebainted1"
-$msg1 = "Connected"
-Write-Host $msg1 -ForegroundColor Green
+try {
+    Connect-VIServer -Server vcenter.sjohnson.local -ErrorAction Stop
+    Write-Host "Connected" -ForegroundColor Green
+}
+catch {
+    Write-Host "Unable to Connect. Please try again later."
+    exit
+    }
 }
 
 function Select-Base-Folder {
