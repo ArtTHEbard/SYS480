@@ -14,6 +14,8 @@ catch {
 
 function Select-Base-Folder {
 # Select Base VM Folder
+$folders = Get-Folder -Type VM
+Write-Host "Avaliable Folders:" `n $folders
 $folder = Read-Host -Prompt "Base VM Folder: "
 try {
     $vms = Get-VM -Location $folder -ErrorAction Stop
