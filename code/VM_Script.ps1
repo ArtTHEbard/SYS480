@@ -15,8 +15,11 @@ catch {
 function Select-Base-Folder {
 # Select Base VM Folder
 $folders = Get-Folder -Type VM
-Write-Host "Avaliable Folders:" `n $folders
-$folder = Read-Host -Prompt "Base VM Folder: "
+Write-Host "Avaliable VM Folders: "
+foreach($fold in $folders){
+    Write-Host $fold
+}
+$folder = Read-Host -Prompt "Base VM Folder "
 try {
     $vms = Get-VM -Location $folder -ErrorAction Stop
     Write-Host "Chosen Folder: $folder" -ForegroundColor Green
@@ -35,7 +38,7 @@ foreach($vm in $vms){
 function Choose_VM {
 # Choose a Base VM for clones
     $vm_base = $null
-    $vm_choice = Read-Host -Prompt "Choose an avaliable VM: "
+    $vm_choice = Read-Host -Prompt "Choose an avaliable VM "
     try {
         $vm_base = Get-Vm -Name $vm_choice -ErrorAction Stop
         Write-Host "Chosen VM: $vm_base" -ForegroundColor Green
@@ -51,7 +54,7 @@ function Choose_VMHost {
 # Choose the VM Host
     $hosts = Get-VMHost
     Write-Host "Avaliable VM Hosts: " `n $hosts
-    $host_choice = Read-Host -Prompt "Please Select VM Host: "
+    $host_choice = Read-Host -Prompt "Please Select VM Host "
     try {
         $vmhost = Get-VMHost -Name $host_choice -ErrorAction Stop
         Write-Host "Selected Host: $vmhost" -ForegroundColor Green
@@ -68,7 +71,7 @@ function Choose_Data($vmhost) {
     $input = $vmhost
     $datastores = $input | Get-Datastore
     Write-Host "Avaliable VM Datastores: " `n $datastores
-    $ds_choice = Read-Host -Prompt "Enter name of datastore: "
+    $ds_choice = Read-Host -Prompt "Enter name of datastore "
     try {
         $ds = Get-Datastore -Name $ds_choice -ErrorAction Stop
         Write-Host "Selected Datastore: $ds" -ForegroundColor Green
@@ -82,7 +85,7 @@ function Choose_Data($vmhost) {
 
 function Choose_Name{
 # Choose the VM Name
-    $name = Read-Host -Prompt "Please enter the name for new VM: "
+    $name = Read-Host -Prompt "Please enter the name for new VM "
     return $name
 }
 function Choose_Type{
@@ -106,7 +109,7 @@ function Linked_Clone($name, $vm, $vmhost, $data){
 # Linked Clone Creation
     $base_option = Get-Snapshot -VM $vm
     Write-Host "Avalible Snapshots: " `n $base_option
-    $snap_choice = Read-Host -Prompt "Enter name of VM snapshot: "
+    $snap_choice = Read-Host -Prompt "Enter name of VM snapshot "
     try {
         $snap = Get-Snapshot -VM $vm -Name $snap_choice -ErrorAction Stop
         Write-Host "Selected Snapshot: $snap" -ForegroundColor Green
@@ -143,7 +146,7 @@ function Full_Clone($name, $vm, $vmhost, $data){
 # Full CLone Creation
     $base_option = Get-Snapshot -VM $vm
     Write-Host "Avalible Snapshots: " `n $base_option
-    $snap_choice = Read-Host -Prompt "Enter name of VM snapshot: "
+    $snap_choice = Read-Host -Prompt "Enter name of VM snapshot "
     try {
         $snap = Get-Snapshot -VM $vm -Name $snap_choice -ErrorAction Stop
         Write-Host "Selected Snapshot: $snap" -ForegroundColor Green
@@ -195,7 +198,7 @@ function Full_Clone($name, $vm, $vmhost, $data){
 function Network_Adapter($vm){
 # Change Network Adapter
     $vm = $vm
-    $net = Read-Host -Prompt "What network would you like the VM set to: "
+    $net = Read-Host -Prompt "What network would you like the VM set to "
     $adapter = Get-NetworkAdapter -VM $vm 
     try {
         Set-NetworkAdapter -NetworkAdapter $adapter -NetworkName $net -Confirm:$false -ErrorAction Stop
