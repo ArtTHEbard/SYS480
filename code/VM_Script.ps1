@@ -213,6 +213,7 @@ function Network_Adapter($vm){
 function Create_VM{
 # Comprehensive Creation Function
     Connect-Server
+    Write-Host "Welcome to the VM Creation Tool!" -ForegroundColor Cyan
     Select-Base-Folder
     $vm_base = Choose_VM
     $vmhost = Choose_VMHost
