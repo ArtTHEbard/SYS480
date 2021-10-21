@@ -218,7 +218,7 @@ function Full_Clone($name, $vm, $vmhost, $data, $defaults){
 }
 
 
-function Network_Adapter($vm, $defautls){
+function Network_Adapter($vm, $defaults){
 # Change Network Adapter
     $vm = $vm
     Write-Host "Avalible Adapters: "
@@ -226,7 +226,7 @@ function Network_Adapter($vm, $defautls){
     foreach($apt in $adapters){
         Write-Host $apt
     }
-    $adpt_choice = Read-Host "Please Select an Adapter [Network adpater 1]: "
+    $adpt_choice = Read-Host "Please Select an Adapter [Network adapter 1]: "
     if ($adpt_choice = "Enter"){
         $adpt_choice = $defaults.adapter
     }
