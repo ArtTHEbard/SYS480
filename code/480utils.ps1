@@ -288,8 +288,7 @@ function Create_VM{
     Write-Host "Have a nice day!" -ForegroundColor Cyan
     exit
 }
-
-fucntion getIP($name, $server){
+function getIP($name, $server){
     $vm = Get-VM -Name $name
     $ip = $vm.guest.IPAddress[0]
     return $ip
