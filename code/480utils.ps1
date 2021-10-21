@@ -289,6 +289,13 @@ function Create_VM{
     exit
 }
 function getIP($name, $server){
+    try{
+        $defaults = Converter -file "./vars.json"
+        Write-Host "File Loaded" -ForegroundColor Green
+    } catch{
+        Write-Host "File not Found" -ForegroundColor Red
+    }
+    Connect-Server -server $defaults.vcenter
     $vm = Get-VM -Name $name
     $ip = $vm.guest.IPAddress[0]
     return $ip
