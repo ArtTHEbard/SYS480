@@ -184,7 +184,7 @@ function Full_Clone($name, $vm, $vmhost, $data){
     $del = Read-Host "Delete temporary clone: $linkedvm ? [Y]/[N]" 
     if ($del -eq "Y"){
         try {
-            Remove-VM -Name $linkedvm -ErrorAction Stop
+            Remove-VM -VM $linkedvm -ErrorAction Stop
             Write-Host "Temp Clone Deleted" -ForegroundColor Green
         }
         catch {
