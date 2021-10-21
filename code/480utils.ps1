@@ -33,6 +33,7 @@ foreach($fold in $folders){
 $folder = Read-Host -Prompt "Base VM Folder [Base Vms] "
 if ($folder = " "){
     $folder = $defaults.base_folder
+}
 try {
     $vms = Get-VM -Location $folder -ErrorAction Stop
     Write-Host "Chosen Folder: $folder" -ForegroundColor Green
