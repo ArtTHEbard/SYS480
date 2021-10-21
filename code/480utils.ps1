@@ -1,24 +1,23 @@
 # VM Creation Script
 # Author: Sam Johnson
-function Connect-Server ($conn){
+function Connect-Server($server){
 # Connect to VI-Server
-if ($conn){
-    $conn
-    }
-
-elseif{
-    try {
-        Connect-VIServer -Server vcenter.sjohnson.local -ErrorAction Stop
+    $conn = $global:DefaultVIServer
+    if($conn){
         Write-Host "Connected" -ForegroundColor Green
-        $conn = $global:DefaultVIServer
-        return $conn
+    }
+    else{
+    try {
+        Connect-VIServer -Server $server -ErrorAction Stop
+        Write-Host "Connected" -ForegroundColor Green
     }
     catch {
         Write-Host "Unable to Connect. Please try again later."
         exit
+    }
+    }
 }
-}
-}
+
 function Converter ($file){
     $defaults = Get-Content $file | ConvertFrom-Json
     return $defaults
@@ -82,13 +81,15 @@ function Choose_VMHost ($defaults){
     }
     return $vmhost
 }
-
+}
 function Choose_Data($vmhost, $defaults) {
 # Choose the Datastore
     $input = $vmhost
     $datastores = $input | Get-Datastore
     Write-Host "Avaliable VM Datastores: " `n $datastores
     $ds_choice = Read-Host -Prompt "Enter name of datastore "
+    if ($ds_choice = "Enter"){
+        $ds_choice = $defaults.datastore
     try {
         $ds = Get-Datastore -Name $ds_choice -ErrorAction Stop
         Write-Host "Selected Datastore: $ds" -ForegroundColor Green
@@ -230,9 +231,14 @@ function Network_Adapter($vm, $defautls){
 }
 function Create_VM{
 # Comprehensive Creation Function
+    try{
+        $defaults = Converter -file "./vars.json"
+        Write-Host "File Loaded" -ForegroundColor Green
+    } catch{
+        Write-Host "File not Found" -ForegroundColor Red
+    }
     Connect-Server
     Write-Host "Welcome to the VM Creation Tool!" -ForegroundColor Cyan
-    $defaults = Converter -file "./vars.json"
     Write-Host $defaults
     Select-Base-Folder -defaults $defaults
     $vm_base = Choose_VM
