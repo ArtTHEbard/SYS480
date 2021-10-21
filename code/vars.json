@@ -4,5 +4,6 @@
     "datastore"  : "datastore2-super9",
     "network" : "480-WAN",
     "base_folder" : "Base Vms",
-    "snapshot" : "Base"
+    "snapshot" : "Base",
+    "adapter" : "Network adapter 1"
 }
