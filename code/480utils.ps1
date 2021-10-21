@@ -284,5 +284,14 @@ function Create_VM{
         Write-Host "Invalid responce processed as N. Proceeding." -ForegroundColor Cyan
     }
     Power -name $name
+
+    Write-Host "Have a nice day!" -ForegroundColor Cyan
+    exit
 }
-#Github Demo
+
+fucntion getIP($name, $server){
+    $vm = Get-VM -Name $name
+    $ip = $vm.guest.IPAddress[0]
+    return $ip
+}
+
