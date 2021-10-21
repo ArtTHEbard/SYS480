@@ -229,8 +229,13 @@ function Network_Adapter($vm, $defaults){
     if ($adpt_choice = "Enter"){
         $adpt_choice = $defaults.adapter
     }
-
+    try{
     $adapter = Get-NetworkAdapter -VM $vm -Name $adpt_choice 
+    Write-Host "Chosen adapter: $adapter" -ForegroundColor Green
+    }catch{
+        Write-Host "Invalid Adapter" -ForegroundColor Red
+        Network_Adapter -vm $vm -defaults $defaults
+    }
     $net = Read-Host -Prompt "What network would you like the VM set to [480-Wan] "
     if ($net = "Enter"){
         $net = $defaults.network
