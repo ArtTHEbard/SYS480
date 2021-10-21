@@ -301,7 +301,8 @@ function CreateNetwork ($name, $esxi, $server){
     }else{
     Connect-Server -server $defaults.vcenter
     }
-    New-VirtualSwitch -VMHost $esxi -Name $name
+    $switch = New-VirtualSwitch -VMHost $esxi -Name $name
+    New-VirtualPortGroup -Name $name -VLanId 0 -VirtualSwitch $switch
 }
 function getIP($name, $server){
     $server = $server
