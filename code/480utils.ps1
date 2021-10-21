@@ -278,7 +278,7 @@ function Create_VM{
     }
     $network = Read-Host -Prompt "Would you like to change the Network Adapter? [Y]/[N]: "
     if ($network -eq "Y"){
-        Network_Adapter -vm $name -defautls $defaults
+        Network_Adapter -vm $name -defaults $defaults
     }elseif ($network -eq "N") {
         Write-Host "Understood. Proceeding." -ForegroundColor Cyan
     }else {
@@ -286,7 +286,7 @@ function Create_VM{
     }
     $network = Read-Host -Prompt "Would you like to change another Network Adapter? [Y]/[N]: "
     if ($network -eq "Y"){
-        Network_Adapter -vm $name -defautls $defaults
+        Network_Adapter -vm $name -defaults $defaults
     }elseif ($network -eq "N") {
         Write-Host "Understood. Proceeding." -ForegroundColor Cyan
     }else {
