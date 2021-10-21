@@ -288,7 +288,21 @@ function Create_VM{
     Write-Host "Have a nice day!" -ForegroundColor Cyan
     exit
 }
-#function CreateNetwork ($name, $esxi )
+function CreateNetwork ($name, $esxi, $server){
+    $server = $server
+    try{
+        $defaults = Converter -file "./vars.json"
+        Write-Host "File Loaded" -ForegroundColor Green
+    } catch{
+        Write-Host "File not Found" -ForegroundColor Red
+    }
+    if ($server){
+        Connect-Server -server $server
+    }else{
+    Connect-Server -server $defaults.vcenter
+    }
+    New-VirtualSwitch -VMHost $esxi -Name $name
+}
 function getIP($name, $server){
     $server = $server
     try{
