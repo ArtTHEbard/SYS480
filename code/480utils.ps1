@@ -40,7 +40,7 @@ try {
 }
 catch {
     Write-Host "Invalid Name" -ForegroundColor Red
-    Select-Base-Folder
+    Select-Base-Folder -defaults $defaults
 }
 
 foreach($vm in $vms){
@@ -68,7 +68,7 @@ function Choose_VMHost ($defaults){
 # Choose the VM Host
     $hosts = Get-VMHost
     Write-Host "Avaliable VM Hosts: " `n $hosts
-    $host_choice = Read-Host -Prompt "Please Select VM Host "
+    $host_choice = Read-Host -Prompt "Please Select VM Host [super9.cyber.local] "
     if ($host_choice = "Enter"){
         $host_choice = $defaults.vm_host
     try {
@@ -77,7 +77,7 @@ function Choose_VMHost ($defaults){
     }
     catch {
         Write-Host "Invalid Host" -ForegroundColor Red 
-        Choose_VMHost_Data
+        Choose_VMHost -defaults $defaults
     }
     return $vmhost
 }
@@ -240,7 +240,6 @@ function Create_VM{
     }
     Connect-Server
     Write-Host "Welcome to the VM Creation Tool!" -ForegroundColor Cyan
-    Write-Host $defaults
     Select-Base-Folder -defaults $defaults
     $vm_base = Choose_VM
     $vmhost = Choose_VMHost -defaults $defautls
