@@ -284,6 +284,14 @@ function Create_VM{
     }else {
         Write-Host "Invalid responce processed as N. Proceeding." -ForegroundColor Cyan
     }
+    $network = Read-Host -Prompt "Would you like to change another Network Adapter? [Y]/[N]: "
+    if ($network -eq "Y"){
+        Network_Adapter -vm $name -defautls $defaults
+    }elseif ($network -eq "N") {
+        Write-Host "Understood. Proceeding." -ForegroundColor Cyan
+    }else {
+        Write-Host "Invalid responce processed as N. Proceeding." -ForegroundColor Cyan
+    }
     Power -name $name
 
     Write-Host "Have a nice day!" -ForegroundColor Cyan
