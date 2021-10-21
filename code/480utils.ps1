@@ -1,15 +1,22 @@
 # VM Creation Script
 # Author: Sam Johnson
-function Connect-Server {
+function Connect-Server ($conn){
 # Connect to VI-Server
-try {
-    Connect-VIServer -Server vcenter.sjohnson.local -ErrorAction Stop
-    Write-Host "Connected" -ForegroundColor Green
-}
-catch {
-    Write-Host "Unable to Connect. Please try again later."
-    exit
+if ($conn){
+    $conn
     }
+}
+elseif{
+    try {
+        Connect-VIServer -Server vcenter.sjohnson.local -ErrorAction Stop
+        Write-Host "Connected" -ForegroundColor Green
+        $conn = $global:DefaultVIServer
+        return $conn
+    }
+    catch {
+        Write-Host "Unable to Connect. Please try again later."
+        exit
+}
 }
 
 function Converter ($file){
@@ -63,6 +70,8 @@ function Choose_VMHost ($defaults){
     $hosts = Get-VMHost
     Write-Host "Avaliable VM Hosts: " `n $hosts
     $host_choice = Read-Host -Prompt "Please Select VM Host "
+    if ($host_choice = "Enter"){
+        $host_choice = $defaults.vm_host
     try {
         $vmhost = Get-VMHost -Name $host_choice -ErrorAction Stop
         Write-Host "Selected Host: $vmhost" -ForegroundColor Green
