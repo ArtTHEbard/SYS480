@@ -221,8 +221,16 @@ function Full_Clone($name, $vm, $vmhost, $data, $defaults){
 function Network_Adapter($vm, $defautls){
 # Change Network Adapter
     $vm = $vm
+    Write-Host "Avalible Adapters: "
+    $adapter = Get-NetworkAdapter -VM $vm
+    for($apt in $adapter){
+        Write-Host $apt
+    }
+    $adpt_choice = Read-Host "Please Select an Adapter: "
+    
+
     $net = Read-Host -Prompt "What network would you like the VM set to "
-    $adapter = Get-NetworkAdapter -VM $vm 
+     
     try {
         Set-NetworkAdapter -NetworkAdapter $adapter -NetworkName $net -Confirm:$false -ErrorAction Stop
         Write-Host "Success!" -ForegroundColor Green 
@@ -232,6 +240,21 @@ function Network_Adapter($vm, $defautls){
         Network_Adapter -vm $vm
     }
     
+}
+
+function Network($name) {
+    
+    
+}
+function Power($name){
+    $power = Read-Host -Prompt "Would you like to power on the new VM? [Y]/[N]: " 
+    if ($power -eq "Y"){
+        Start-VM -VM $name
+    }elseif ($power -eq "N") {
+        Write-Host "Understood. Proceeding." -ForegroundColor Cyan
+    }else {
+        Write-Host "Invalid responce processed as N. Proceeding." -ForegroundColor Cyan
+}
 }
 function Create_VM{
 # Comprehensive Creation Function
@@ -262,13 +285,6 @@ function Create_VM{
     }else {
         Write-Host "Invalid responce processed as N. Proceeding." -ForegroundColor Cyan
     }
-    $power = Read-Host -Prompt "Would you like to power on the new VM? [Y]/[N]: " 
-    if ($power -eq "Y"){
-        Start-VM -VM $name
-    }elseif ($power -eq "N") {
-        Write-Host "Understood. Proceeding." -ForegroundColor Cyan
-    }else {
-        Write-Host "Invalid responce processed as N. Proceeding." -ForegroundColor Cyan
-}
+    
 }
 #Github Demo
