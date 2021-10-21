@@ -215,9 +215,9 @@ function Full_Clone($name, $vm, $vmhost, $data, $defaults){
 function Network_Adapter($vm, $defaults){
 # Change Network Adapter
     $vm = $vm
-    $options = Get-NetworkAdapter -VM $vm
-    Write-Host "Avalible Adapters: 
-    $options"
+    
+    Write-Host "Avalible Adapters:" 
+    Write-Host Get-NetworkAdapter -VM $vm
     
     $adpt_choice = Read-Host "Please Select an Adapter [Network adapter 1]: "
     if ($adpt_choice -eq ""){
