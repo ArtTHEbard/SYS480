@@ -194,7 +194,11 @@ function Full_Clone($name, $vm, $vmhost, $data){
         Write-Host "Understood. Please delete the temp clone from the Vcenter Portal."
     }  
 }
-
+function DeleteVM {
+    $get_vm = Read-Host "Name of VM" 
+    Remove-VM -Name $get_vm 
+    Write-Host "Success"
+}
 function Network_Adapter($vm){
 # Change Network Adapter
     $vm = $vm
