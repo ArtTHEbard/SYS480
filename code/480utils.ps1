@@ -185,6 +185,7 @@ function Full_Clone($name, $vm, $vmhost, $data, $defaults){
         try {
             $linkedvm = New-Vm -Name $linkedname -VM $vm -LinkedClone -ReferenceSnapshot $snap -VmHost $vmhost -Datastore $data -ErrorAction Stop
             $newvm = New-Vm -name $name -VM $linkedvm -VmHost $vmhost -Datastore $data -ErrorAction Stop
+            New-Snapshot -vm $newvm -Name "Base"
             Write-Host "VM Creation Successful!" -ForegroundColor Green
 
         }
