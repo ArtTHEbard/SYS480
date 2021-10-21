@@ -303,7 +303,7 @@ function CreateNetwork ($name, $esxi, $server){
     }
     try{
     $switch = New-VirtualSwitch -VMHost $esxi -Name $name
-    New-VirtualPortGroup -Name $name -VLanId 0 -VirtualSwitch $switch -Server "vcenter.sjohnson.local"
+    New-VirtualPortGroup -Name $name -VLanId 0 -VirtualSwitch $switch
     }
     catch{
     Write-Host "Invalid Options"
