@@ -87,7 +87,7 @@ function Choose_Data($vmhost, $defaults) {
     $input = $vmhost
     $datastores = $input | Get-Datastore
     Write-Host "Avaliable VM Datastores: " `n $datastores
-    $ds_choice = Read-Host -Prompt "Enter name of datastore "
+    $ds_choice = Read-Host -Prompt "Enter name of datastore [datastore2-super9] "
     if ($ds_choice = "Enter"){
         $ds_choice = $defaults.datastore
     try {
