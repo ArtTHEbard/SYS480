@@ -17,12 +17,10 @@ function Connect-Server($server){
     }
     }
 }
-
 function Converter ($file){
     $defaults = Get-Content $file | ConvertFrom-Json
     return $defaults
     }
-
 function Select-Base-Folder ($defaults) {
 # Select Base VM Folder
 $folders = Get-Folder -Type VM
@@ -48,7 +46,6 @@ foreach($vm in $vms){
 }
 
 }
-
 function Choose_VM {
 # Choose a Base VM for clones
     $vm_base = $null
@@ -63,7 +60,6 @@ function Choose_VM {
     }
     return $vm_base
 }
-
 function Choose_VMHost ($defaults){
 # Choose the VM Host
     $hosts = Get-VMHost
@@ -101,7 +97,6 @@ function Choose_Data($vmhost, $defaults) {
     return $ds
 }
 }
-
 function Choose_Name{
 # Choose the VM Name
     $name = Read-Host -Prompt "Please enter the name for new VM "
@@ -123,7 +118,6 @@ function Choose_Type{
     } 
     return $choice
 }
-
 function Linked_Clone($name, $vm, $vmhost, $data, $defautls){
 # Linked Clone Creation
     $base_option = Get-Snapshot -VM $vm
@@ -163,7 +157,6 @@ function Linked_Clone($name, $vm, $vmhost, $data, $defautls){
     }
      
 }
-
 function Full_Clone($name, $vm, $vmhost, $data, $defaults){
 # Full CLone Creation
     $base_option = Get-Snapshot -VM $vm
@@ -219,8 +212,6 @@ function Full_Clone($name, $vm, $vmhost, $data, $defaults){
         Write-Host "Understood. Please delete the temp clone from the Vcenter Portal."
     }  
 }
-
-
 function Network_Adapter($vm, $defaults){
 # Change Network Adapter
     $vm = $vm
@@ -253,7 +244,6 @@ function Network_Adapter($vm, $defaults){
     }
     
 }
-
 function Power($name){
     $power = Read-Host -Prompt "Would you like to power on the new VM? [Y]/[N]: " 
     if ($power -eq "Y"){
