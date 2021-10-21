@@ -31,7 +31,7 @@ foreach($fold in $folders){
     Write-Host $fold
 }
 $folder = Read-Host -Prompt "Base VM Folder [Base Vms] "
-if ($folder = " "){
+if ($folder = "D"){
     $folder = $defaults.base_folder
 }
 try {
