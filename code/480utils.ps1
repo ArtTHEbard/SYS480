@@ -288,7 +288,7 @@ function Create_VM{
     Write-Host "Have a nice day!" -ForegroundColor Cyan
     exit
 }
-function CreateNetwork ($name, $esxi, )
+#function CreateNetwork ($name, $esxi )
 function getIP($name, $server){
     $server = $server
     try{
