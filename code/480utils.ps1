@@ -269,7 +269,7 @@ function Create_VM{
     } catch{
         Write-Host "File not Found" -ForegroundColor Red
     }
-    Connect-Server
+    Connect-Server -server $defaults.vcenter
     Write-Host "Welcome to the VM Creation Tool!" -ForegroundColor Cyan
     Select-Base-Folder -defaults $defaults
     $vm_base = Choose_VM
