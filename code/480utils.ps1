@@ -100,6 +100,7 @@ function Choose_Data($vmhost, $defaults) {
     }
     return $ds
 }
+}
 
 function Choose_Name{
 # Choose the VM Name
