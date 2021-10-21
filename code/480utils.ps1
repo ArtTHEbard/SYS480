@@ -5,7 +5,7 @@ function Connect-Server ($conn){
 if ($conn){
     $conn
     }
-}
+
 elseif{
     try {
         Connect-VIServer -Server vcenter.sjohnson.local -ErrorAction Stop
@@ -18,7 +18,7 @@ elseif{
         exit
 }
 }
-
+}
 function Converter ($file){
     $defaults = Get-Content $file | ConvertFrom-Json
     return $defaults
