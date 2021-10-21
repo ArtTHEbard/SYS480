@@ -196,7 +196,7 @@ function Full_Clone($name, $vm, $vmhost, $data){
 }
 function DeleteVM {
     $get_vm = Read-Host "Name of VM" 
-    Remove-VM -Name $get_vm 
+    Remove-VM $get_vm 
     Write-Host "Success"
 }
 function Network_Adapter($vm){
