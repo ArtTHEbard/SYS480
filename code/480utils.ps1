@@ -242,12 +242,12 @@ function Create_VM{
     Write-Host "Welcome to the VM Creation Tool!" -ForegroundColor Cyan
     Select-Base-Folder -defaults $defaults
     $vm_base = Choose_VM
-    $vmhost = Choose_VMHost -defaults $defautls
-    $ds = Choose_Data($vmhost, $defautls)
+    $vmhost = Choose_VMHost -defaults $defaults
+    $ds = Choose_Data($vmhost, $defaults)
     $name = Choose_Name
     $choice = Choose_Type
     if ($choice -eq "Linked"){
-        Linked_Clone -name $name -vm $vm_base -vmhost $vmhost -data $ds -defautls $defautls
+        Linked_Clone -name $name -vm $vm_base -vmhost $vmhost -data $ds -defautls $defaults
     }elseif ($choice -eq "Full"){
         Full_Clone -name $name -vm $vm_base -vmhost $vmhost -data $ds -defaults $defaults
     }
