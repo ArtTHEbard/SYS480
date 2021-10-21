@@ -31,10 +31,10 @@ foreach($fold in $folders){
     Write-Host $fold
 }
 $folder = Read-Host -Prompt "Base VM Folder [Base Vms] "
-if ($folder = "Enter"){
+if ($folder = Enter){
     $folder = $defaults.base_folder
 }else{
-    $folder = $folder
+    $folder 
 }
 try {
     $vms = Get-VM -Location $folder -ErrorAction Stop
