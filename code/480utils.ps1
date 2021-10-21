@@ -222,17 +222,21 @@ function Network_Adapter($vm, $defautls){
 # Change Network Adapter
     $vm = $vm
     Write-Host "Avalible Adapters: "
-    $adapter = Get-NetworkAdapter -VM $vm
-    for($apt in $adapter){
+    $adapters = Get-NetworkAdapter -VM $vm
+    foreach($apt in $adapters){
         Write-Host $apt
     }
-    $adpt_choice = Read-Host "Please Select an Adapter: "
+    $adpt_choice = Read-Host "Please Select an Adapter [Network adpater 1]: "
+    if ($adpt_choice = "Enter"){
+        $adpt_choice = $defaults.adapter
+    }
     
-
-    $net = Read-Host -Prompt "What network would you like the VM set to "
-     
+    $net = Read-Host -Prompt "What network would you like the VM set to [480-Wan] "
+    if ($net = "Enter"){
+        $net = $defaults.network
+    }
     try {
-        Set-NetworkAdapter -NetworkAdapter $adapter -NetworkName $net -Confirm:$false -ErrorAction Stop
+        Set-NetworkAdapter -NetworkAdapter $adpt_choice -NetworkName $net -Confirm:$false -ErrorAction Stop
         Write-Host "Success!" -ForegroundColor Green 
     }
     catch {
@@ -242,10 +246,6 @@ function Network_Adapter($vm, $defautls){
     
 }
 
-function Network($name) {
-    
-    
-}
 function Power($name){
     $power = Read-Host -Prompt "Would you like to power on the new VM? [Y]/[N]: " 
     if ($power -eq "Y"){
@@ -279,12 +279,12 @@ function Create_VM{
     }
     $network = Read-Host -Prompt "Would you like to change the Network Adapter? [Y]/[N]: "
     if ($network -eq "Y"){
-        Network_Adapter -vm $name
+        Network_Adapter -vm $name -defautls $defaults
     }elseif ($network -eq "N") {
         Write-Host "Understood. Proceeding." -ForegroundColor Cyan
     }else {
         Write-Host "Invalid responce processed as N. Proceeding." -ForegroundColor Cyan
     }
-    
+    Power -name $name
 }
 #Github Demo
