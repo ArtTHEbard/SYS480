@@ -297,7 +297,7 @@ function getIP($name, $server){
     }
     Connect-Server -server $defaults.vcenter
     $vm = Get-VM -Name $name
-    $ip = $vm.guest.IPAddress[0]
+    $ip = "$vm.guest.IPAddress[0] hostname=$vm.guest.VMName"
     return $ip
 }
 
