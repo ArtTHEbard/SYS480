@@ -131,6 +131,7 @@ function Linked_Clone($name, $vm, $vmhost, $data, $defautls){
     $snap_choice = Read-Host -Prompt "Enter name of VM snapshot [Base] "
     if ($snap_choice = "Enter"){
         $snap_choice = $defaults.snapshot
+    }
     try {
         $snap = Get-Snapshot -VM $vm -Name $snap_choice -ErrorAction Stop
         Write-Host "Selected Snapshot: $snap" -ForegroundColor Green
