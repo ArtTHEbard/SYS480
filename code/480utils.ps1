@@ -69,7 +69,7 @@ function Choose_VMHost ($defaults){
     $hosts = Get-VMHost
     Write-Host "Avaliable VM Hosts: " `n $hosts
     $host_choice = Read-Host -Prompt "Please Select VM Host [super9.cyber.local] "
-    if ($host_choice = "Enter"){
+    if ($host_choice -eq ""){
         $host_choice = $defaults.vm_host
     try {
         $vmhost = Get-VMHost -Name $host_choice -ErrorAction Stop
@@ -88,7 +88,7 @@ function Choose_Data($vmhost, $defaults) {
     $datastores = $input | Get-Datastore
     Write-Host "Avaliable VM Datastores: " `n $datastores
     $ds_choice = Read-Host -Prompt "Enter name of datastore [datastore2-super9] "
-    if ($ds_choice = "Enter"){
+    if ($ds_choice -eq ""){
         $ds_choice = $defaults.datastore
     try {
         $ds = Get-Datastore -Name $ds_choice -ErrorAction Stop
@@ -129,7 +129,7 @@ function Linked_Clone($name, $vm, $vmhost, $data, $defautls){
     $base_option = Get-Snapshot -VM $vm
     Write-Host "Avalible Snapshots: " `n $base_option
     $snap_choice = Read-Host -Prompt "Enter name of VM snapshot [Base] "
-    if ($snap_choice = "Enter"){
+    if ($snap_choice -eq ""){
         $snap_choice = $defaults.snapshot
     }
     try {
@@ -169,6 +169,9 @@ function Full_Clone($name, $vm, $vmhost, $data, $defaults){
     $base_option = Get-Snapshot -VM $vm
     Write-Host "Avalible Snapshots: " `n $base_option
     $snap_choice = Read-Host -Prompt "Enter name of VM snapshot "
+    if ($snap_choice -eq ""){
+        $snap_choice = $defaults.snapshot
+    }
     try {
         $snap = Get-Snapshot -VM $vm -Name $snap_choice -ErrorAction Stop
         Write-Host "Selected Snapshot: $snap" -ForegroundColor Green
@@ -226,7 +229,7 @@ function Network_Adapter($vm, $defaults){
     $options"
     
     $adpt_choice = Read-Host "Please Select an Adapter [Network adapter 1]: "
-    if ($adpt_choice = "Enter"){
+    if ($adpt_choice -eq ""){
         $adpt_choice = $defaults.adapter
     }
     try{
@@ -237,7 +240,7 @@ function Network_Adapter($vm, $defaults){
         Network_Adapter -vm $vm -defaults $defaults
     }
     $net = Read-Host -Prompt "What network would you like the VM set to [480-Wan] "
-    if ($net = "Enter"){
+    if ($net -eq ""){
         $net = $defaults.network
     }
     try {
