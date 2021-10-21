@@ -243,7 +243,7 @@ function Create_VM{
     Select-Base-Folder -defaults $defaults
     $vm_base = Choose_VM
     $vmhost = Choose_VMHost -defaults $defaults
-    $ds = Choose_Data($vmhost, $defaults)
+    $ds = Choose_Data -vmhost $vmhost -defaults $defaults
     $name = Choose_Name
     $choice = Choose_Type
     if ($choice -eq "Linked"){
