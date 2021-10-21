@@ -12,14 +12,22 @@ catch {
     }
 }
 
-function Select-Base-Folder {
+function Converter ($file){
+    $defaults = Get-Content $file | ConvertFrom-Json
+    return $defaults
+    }
+
+function Select-Base-Folder ($defaults) {
 # Select Base VM Folder
 $folders = Get-Folder -Type VM
 Write-Host "Avaliable VM Folders: "
 foreach($fold in $folders){
     Write-Host $fold
 }
-$folder = Read-Host -Prompt "Base VM Folder "
+$folder = Read-Host -Prompt "Base VM Folder [Base Vms] "
+if ($folder = "Enter"){
+    $folder = $defaults.base_folder
+}
 try {
     $vms = Get-VM -Location $folder -ErrorAction Stop
     Write-Host "Chosen Folder: $folder" -ForegroundColor Green
@@ -50,7 +58,7 @@ function Choose_VM {
     return $vm_base
 }
 
-function Choose_VMHost {
+function Choose_VMHost ($defaults){
 # Choose the VM Host
     $hosts = Get-VMHost
     Write-Host "Avaliable VM Hosts: " `n $hosts
@@ -66,7 +74,7 @@ function Choose_VMHost {
     return $vmhost
 }
 
-function Choose_Data($vmhost) {
+function Choose_Data($vmhost, $defaults) {
 # Choose the Datastore
     $input = $vmhost
     $datastores = $input | Get-Datastore
@@ -105,7 +113,7 @@ function Choose_Type{
     return $choice
 }
 
-function Linked_Clone($name, $vm, $vmhost, $data){
+function Linked_Clone($name, $vm, $vmhost, $data, $defautls){
 # Linked Clone Creation
     $base_option = Get-Snapshot -VM $vm
     Write-Host "Avalible Snapshots: " `n $base_option
@@ -142,7 +150,7 @@ function Linked_Clone($name, $vm, $vmhost, $data){
      
 }
 
-function Full_Clone($name, $vm, $vmhost, $data){
+function Full_Clone($name, $vm, $vmhost, $data, $defaults){
 # Full CLone Creation
     $base_option = Get-Snapshot -VM $vm
     Write-Host "Avalible Snapshots: " `n $base_option
@@ -196,7 +204,7 @@ function Full_Clone($name, $vm, $vmhost, $data){
 }
 
 
-function Network_Adapter($vm){
+function Network_Adapter($vm, $defautls){
 # Change Network Adapter
     $vm = $vm
     $net = Read-Host -Prompt "What network would you like the VM set to "
@@ -215,16 +223,18 @@ function Create_VM{
 # Comprehensive Creation Function
     Connect-Server
     Write-Host "Welcome to the VM Creation Tool!" -ForegroundColor Cyan
-    Select-Base-Folder
+    $defaults = Converter -file "./vars.json"
+    Write-Host $defaults
+    Select-Base-Folder -defaults $defaults
     $vm_base = Choose_VM
-    $vmhost = Choose_VMHost
-    $ds = Choose_Data($vmhost)
+    $vmhost = Choose_VMHost -defaults $defautls
+    $ds = Choose_Data($vmhost, $defautls)
     $name = Choose_Name
     $choice = Choose_Type
     if ($choice -eq "Linked"){
-        Linked_Clone -name $name -vm $vm_base -vmhost $vmhost -data $ds
+        Linked_Clone -name $name -vm $vm_base -vmhost $vmhost -data $ds -defautls $defautls
     }elseif ($choice -eq "Full"){
-        Full_Clone -name $name -vm $vm_base -vmhost $vmhost -data $ds
+        Full_Clone -name $name -vm $vm_base -vmhost $vmhost -data $ds -defaults $defaults
     }
     $network = Read-Host -Prompt "Would you like to change the Network Adapter? [Y]/[N]: "
     if ($network -eq "Y"){
