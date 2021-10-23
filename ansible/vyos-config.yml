@@ -12,4 +12,4 @@
         group: vyattacfg
     - name: bounce and end
       become: yes
-      shell: nohup bash -c "usr/bin/sleep 5 && /usr/sbin/shutdown -r now" &
+      shell: nohup bash -c "/usr/bin/sleep 5 && /usr/sbin/shutdown -r now" &
