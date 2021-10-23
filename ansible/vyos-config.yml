@@ -1,6 +1,6 @@
 #VYOS Configuration Playbook
 - name: vyos network config
-  host: vyos
+  hosts: vyos
   tasks:
     - name: load vyos config from template
       become: yes
