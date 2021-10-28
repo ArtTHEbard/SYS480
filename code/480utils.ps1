@@ -259,7 +259,7 @@ function Power($name){
 function Create_VM{
 # Comprehensive Creation Function
     try{
-        $defaults = Converter -file "./vars.json"
+        $defaults = Converter -file "./code/vars.json"
         Write-Host "File Loaded" -ForegroundColor Green
     } catch{
         Write-Host "File not Found" -ForegroundColor Red
