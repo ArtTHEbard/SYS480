@@ -6,7 +6,7 @@ vyos:
       lan: 10.0.5.0/24
       dhcp_name_server: 10.0.5.5
       shared_network: Blue9-LAN
-      dhcp.domain: blue9.local
+      dhcp_domain: blue9.local
   vars:
     ansible_python_interpreter: /usr/bin/python3
     ansible_connection: network_cli

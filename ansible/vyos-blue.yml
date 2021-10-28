@@ -14,7 +14,7 @@
       save: yes
       lines:
       - set service dhcp-server global-parameters 'local-address {{ lan_ip }};'
-      - set service dhcp-server shared-network-name {{ shared_network }} authoritive
+      - set service dhcp-server shared-network-name {{ shared_network }} authoritative
       - set service dhcp-server shared-network-name {{ shared_network }} subnet {{ lan }} default-router '{{lan_ip}}'
       - set service dhcp-server shared-network-name {{ shared_network }} subnet {{ lan }} dns-server '{{ dhcp_name_server}}'
       - set service dhcp-server shared-network-name {{ shared_network }} subnet {{ lan }} domain-name '{{ dhcp_domain }}'
