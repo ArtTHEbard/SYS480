@@ -1,5 +1,5 @@
 #Playbook to configure Centos
-- name centos config
+- name: centos config
   hosts: centos
   tasks: 
   - name: Create the .ssh directory if it is not there
