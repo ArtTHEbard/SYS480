@@ -323,7 +323,7 @@ function CreateNetwork ($name, $esxi, $server){
 function getIP($name, $server){
     $server = $server
     try{
-        $defaults = Converter -file "./vars.json"
+        $defaults = Converter -file "./code/vars.json"
         Write-Host "File Loaded" -ForegroundColor Green
     } catch{
         Write-Host "File not Found" -ForegroundColor Red
