@@ -1,6 +1,6 @@
-linux:
-  hosts:
-  children:
+linux: 
+  hosts: 
+  children: 
     centos: 
       hosts: 
         10.0.5.75: 
