@@ -1,0 +1,6 @@
+vyos:
+  hosts:
+    10.0.17.200:
+      hostname: blue9-fw
+      lan_ip: 10.0.5.2
+      
