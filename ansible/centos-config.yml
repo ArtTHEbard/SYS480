@@ -1,0 +1,58 @@
+#Playbook to configure Centos
+- name: centos config
+  hosts: centos
+  tasks: 
+  - name: Create the .ssh directory if it is not there
+    file: 
+      path: "/home/{{ ansible_user}}/.ssh"
+      state: directory
+      mode: 0700
+  - name: create authorized_keys file
+    file: 
+      path: "/home/{{ ansible_user }}/.ssh/authorized_keys"
+      state: touch
+      mode: 0644
+  - name: copy over key block and append to auth keys
+    blockinfile: 
+      dest: "/home/{{ ansible_user }}/.ssh/authorized_keys"
+      block: "{{ public_key }}"
+
+  - name: create sudoers dropin file for 480
+    file: 
+      path: /etc/sudoers.d/480
+      state: touch
+      mode: 0440
+    become: yes 
+
+  - name: create a drop in entry in /etc/sudoers.d/480
+    blockinfile: 
+      dest: /etc/sudoers.d/480
+      block: "{{ ansible_user }} ALL=(ALL) NOPASSWD: ALL"
+    become: yes
+
+  - name: set the hostname
+    hostname: 
+      name: "{{hostname}}"
+    become: yes
+
+  - name: add host to hosts file
+    lineinfile: 
+      path: /etc/hosts
+      line: '127.0.1.1  {{ hostname }}'
+    become: yes
+
+  - name: push over the networking script
+    template: 
+      src: files/ifcfg.j2
+      dest: '/etc/sysconfig/network-scripts/ifcfg-{{device}}'
+      mode: 0644
+      owner: root
+      group: root
+      force: yes
+    become: yes
+
+  - name: bounce the network
+    shell: "sleep 5 && systemctl restart network"
+    become: yes
+    async: 1
+    poll: 0

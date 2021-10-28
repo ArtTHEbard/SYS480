@@ -1,0 +1,9 @@
+{
+    "vcenter" : "vcenter.sjohnson.local",
+    "vm_host" : "super9.cyber.local",
+    "datastore"  : "datastore2-super9",
+    "network" : "480-WAN",
+    "base_folder" : "Base Vms",
+    "snapshot" : "Base",
+    "adapter" : "Network adapter 1"
+}
