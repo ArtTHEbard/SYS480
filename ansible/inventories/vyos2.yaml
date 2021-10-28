@@ -4,7 +4,7 @@ vyos:
       hostname: Blue9-FW
       lan_ip: 10.0.5.2
       lan: 10.0.5.0/24
-      shcp_name_server: 10.0.5.5
+      dhcp_name_server: 10.0.5.5
       shared_network: Blue9-LAN
       dhcp.domain: blue9.local
   vars:
