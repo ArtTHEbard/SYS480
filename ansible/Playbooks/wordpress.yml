@@ -1,6 +1,6 @@
 ## Centos Congif written by Sam Johnson with guidance from Devan Paden.
 - name: centos config
-  hosts: centos
+  hosts: wordpress
   tasks: 
   - name: Create the .ssh directory if it is not there
     file: 
