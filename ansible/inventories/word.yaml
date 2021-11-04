@@ -12,5 +12,5 @@ wordpress:
     gateway: 10.0.17.2
     name_server: 10.0.17.2
     domain: sjohnson.local
-    wp_rp: 
-    wp_dp:
+    wp_rp: "P@$$Word"
+    wp_dp: "P@$$Word"
