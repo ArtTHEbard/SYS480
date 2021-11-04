@@ -1,0 +1,5 @@
+test:
+  hosts:
+    10.0.17.103:
+      hostname: wordpress-sjohnson
+      lan_ip: 10.0.17.75
