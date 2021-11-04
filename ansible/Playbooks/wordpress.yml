@@ -94,30 +94,30 @@
 
 - name: Create secrets
   hosts: wordpress
-    tasks:
-      - name: Create secret path
-        file:
-          path: "/var/secret/"
-          state: directory
-          mode: 0700
-      - name: Create secret file 1
-        file:
-          path: "/var/secret/db_password.txt"
-          state: touch
-          mode: 0644
-      - name: Create secret file 2
-        file:
-          path: "/var/secret/db_root_password.txt"
-          state: touch
-          mode: 0644
-      - name: Copy over secret 1
-        blockinfile:
-          dest: "/var/secret/db_password.txt"
-          block: {{ wp_rp }}
-      - name: Copy over secret 1
-        blockinfile:
-          dest: "/var/secret/db_password.txt"
-          block: {{ wp_dp }}
+  tasks:
+    - name: Create secret path
+      file:
+        path: "/var/secret/"
+        state: directory
+        mode: 0700
+    - name: Create secret file 1
+      file:
+        path: "/var/secret/db_password.txt"
+        state: touch
+        mode: 0644
+    - name: Create secret file 2
+      file:
+        path: "/var/secret/db_root_password.txt"
+        state: touch
+        mode: 0644
+    - name: Copy over secret 1
+      blockinfile:
+        dest: "/var/secret/db_password.txt"
+        block: {{ wp_rp }}
+    - name: Copy over secret 1
+      blockinfile:
+        dest: "/var/secret/db_password.txt"
+        block: {{ wp_dp }}
 
 - name: Pull Docker File from Github
   hosts: wordpress
