@@ -76,7 +76,7 @@
       become: yes
     - name: Install Docker
       yum: 
-        name= docker
+        name: docker
         state: latest
       become: yes
     - name: Start Docker
