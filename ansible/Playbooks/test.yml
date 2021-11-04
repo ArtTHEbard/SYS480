@@ -1,0 +1,7 @@
+- name: centos config
+  hosts: centos
+  tasks:
+  - name: Test install
+    yum:
+      name: tree
+      state: latest
