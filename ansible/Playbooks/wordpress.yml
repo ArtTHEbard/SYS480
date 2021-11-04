@@ -59,6 +59,7 @@
 ## Docker config based on script written by Sahil Suri in Linux Juggernaut, as well as commands from my previous install of Docker.  
 - name: docker config
   hosts: wordpress
+  become: yes
   tasks:
   - name: Upgrade
     yum:
@@ -89,7 +90,6 @@
       url: https://github.com/docker/compose/releases/download/1.27.4/docker-compose-$(uname -s)-$(uname -m)
       dest: /usr/local/bin/docker-compose
       mode: +x
-  become: yes
 
 - name: Create secrets
   hosts: wordpress
