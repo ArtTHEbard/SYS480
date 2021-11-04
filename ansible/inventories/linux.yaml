@@ -3,21 +3,21 @@ linux:
   children: 
     centos: 
       hosts: 
-        10.0.5.80: 
+        10.0.5.10: 
           hostname: centos-1
           lan_ip: 10.0.5.10
-        10.0.5.81: 
+        10.0.5.11: 
           hostname: centos-2
           lan_ip: 10.0.5.11
-        10.0.5.82: 
+        10.0.5.12: 
           hostname: centos-3
           lan_ip: 10.0.5.12
     ubuntu:
       hosts:
-        10.0.5.83:
+        10.0.5.13:
           hostname: ubuntu-1
           lan_ip: 10.0.5.13
-        10.0.5.84:
+        10.0.5.14:
           hostname: ubuntu-2
           lan_ip: 10.0.5.14
 
