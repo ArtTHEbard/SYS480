@@ -33,9 +33,9 @@ services:
 
 secrets: 
   db_password:
-    files: /var/db_password.txt
+    files: /var/secret/db_password.txt
   db_root_password:
-    files: /var/db_root_pasword.txt
+    files: /var/secret/db_root_pasword.txt
 
 volumes:
   db_data: {}
