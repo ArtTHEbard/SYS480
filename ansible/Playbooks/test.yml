@@ -3,7 +3,7 @@
   tasks:
   - name: Test install
     yum:
-      name: *
+      name: "*"
       state: latest
   - name: Install Prereqs
     yum:
