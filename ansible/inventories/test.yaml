@@ -1,5 +1,14 @@
 test:
   hosts:
     10.0.17.103:
-      hostname: wordpress-sjohnson
-      lan_ip: 10.0.17.75
+      hostname: test-sjohnson
+      
+  
+  vars:
+    public_key: "ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABgQCt3pc6RvhwYAi6UgoQbSyoUDmvGWtWAUb1Wg63tfBjME9ODdQNyKnHv7yDexEy38rPUOZfX6iW3eRL+wRCtj0t8i1nDuv2Db7yjXdpk4subV3Ule+ARaJ0N/4GryzeIHPuO+SklJg8TcEhwAZ8Dlwxe5kj06/oqrpUocveEZRBGFknJsu9HHAVZiuE6ACCXK3MmFeM6zIwxGjXQYh8MkFt42IhhJB/yUTTRqayPJEy8V6ZTr4jMoWEQ1M7fq7Dx5ZjuFcHubzISXMLyIDX8KPZSMQMLjtzWpC+LF0KzhwQ79GdIikqXMhnzDqnjOsLT9O8sdchlPmuKqZOqEPQe9uqkOQdWDBTQFh4tzYp39RjAVFb13kB5n3VLrq3cbs8BaGWspG5ByuQWzmdjEWDPtosjGT5sMFK3vABMx031XNZrVRaovTxub+nu0rOOH0ctobuQaMt282kk4UTAi0v5a9qdCWJd1R3YzBKsFyaBWs9QW8q5+dsJZkBSqdwOU8sjZ8= 480"
+    ansible_user: deployer
+    device: ens192
+    prefix: 24
+    gateway: 10.0.17.2
+    name_server: 10.0.17.2
+    domain: sjohnson.local
