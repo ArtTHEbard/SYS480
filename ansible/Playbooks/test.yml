@@ -5,3 +5,4 @@
     yum:
       name: tree
       state: latest
+    become: yes
