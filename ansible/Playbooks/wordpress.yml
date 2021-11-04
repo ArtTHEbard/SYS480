@@ -113,11 +113,11 @@
     - name: Copy over secret 1
       blockinfile:
         dest: "/var/secret/db_password.txt"
-        block: {{ wp_rp }}
+        block: "{{ wp_rp }}""
     - name: Copy over secret 1
       blockinfile:
         dest: "/var/secret/db_password.txt"
-        block: {{ wp_dp }}
+        block: "{{ wp_dp }}""
 
 - name: Pull Docker File from Github
   hosts: wordpress
