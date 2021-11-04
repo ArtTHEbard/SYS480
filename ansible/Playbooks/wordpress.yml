@@ -43,7 +43,7 @@
 
   - name: push over the networking script
     template: 
-      src: files/ifcfg.j2
+      src: ../files/ifcfg.j2
       dest: '/etc/sysconfig/network-scripts/ifcfg-{{device}}'
       mode: 0644
       owner: root
