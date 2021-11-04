@@ -56,20 +56,18 @@
     become: yes
     async: 1
     poll: 0
-## Docker config based on script written by Sahil Suri in Linux Juggernaut. 
+## Docker config based on script written by Sahil Suri in Linux Juggernaut, as well as commands from my previous install of Docker.  
 - name: docker config
   hosts: wordpress
   tasks:
     - name: Install Prereqs
       yum:
-        name: "yum-utils"
+        name: "{{item}}"
         state: latest
-      yum:
-        name: "device-mapper-persistent-data"
-        state: latest
-      yum:
-        name: "lvm2" 
-        state: latest
+      loop:
+        - yum-utils
+        - device-mapper-persistent-data
+        - lvm2
 
     - name: Add Docker REPO
       get_url:
@@ -86,3 +84,11 @@
         name=docker
         state=started
         enabled=yes
+
+    - name: Install Docker Compose
+      get_url:
+        url: https://github.com/docker/compose/releases/download/1.27.4/docker-compose-$(uname -s)-$(uname -m)
+        dest: /usr/local/bin/docker-compose
+        mode: +x
+
+- name: Pull Docker File from Github. 
