@@ -9,5 +9,6 @@ wordpress:
     ansible_user: deployer
     device: ens192
     prefix: 24
-    gateway: 10.0.5.2
-    name_server: 10.0.5.5
+    gateway: 10.0.17.2
+    name_server: 10.0.17.2
+    domain: sjohnson.local
