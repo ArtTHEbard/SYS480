@@ -3,6 +3,13 @@
   tasks:
   - name: Test install
     yum:
-      name: tree
+      name: *
+      state: latest
+  - name: Install Prereqs
+    yum:
+      name:
+        - yum-utils
+        - device-mapper-persistent-data
+        - lvm2
       state: latest
     become: yes
