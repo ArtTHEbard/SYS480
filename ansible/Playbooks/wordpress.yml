@@ -1,3 +1,4 @@
+## Centos Congif written by Sam Johnson with guidance from Devan Paden.
 - name: centos config
   hosts: centos
   tasks: 
@@ -55,5 +56,33 @@
     become: yes
     async: 1
     poll: 0
-
+## Docker config based on script written by Sahil Suri in Linux Juggernaut. 
 - name: docker config
+  hosts: wordpress
+  tasks:
+    - name: Install Prereqs
+      yum:
+        name: "yum-utils"
+        state: latest
+      yum:
+        name: "device-mapper-persistent-data"
+        state: latest
+      yum:
+        name: "lvm2" 
+        state: latest
+
+    - name: Add Docker REPO
+      get_url:
+        url: https://download.docker.com/linux/centos/docker-ce.repo
+        dest: /etc/yum.repos.d/docker-ce.repo
+      
+    - name: Install Docker
+      yum: 
+        name=docker
+        state: latest
+
+    - name: Start Docker
+      service: 
+        name=docker
+        state=started
+        enabled=yes
