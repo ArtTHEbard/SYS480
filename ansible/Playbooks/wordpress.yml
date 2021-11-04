@@ -62,12 +62,14 @@
   tasks:
     - name: Install Prereqs
       yum:
-        name: "{{item}}"
+        name: "yum-utils"
         state: latest
-      loop:
-        - yum-utils
-        - device-mapper-persistent-data
-        - lvm2
+      yum:
+        name: "device-mapper-persistent-data"
+        state: latest
+      yum:
+        name: "lvm2"
+        state: latest
       become: yes
     - name: Add Docker REPO
       get_url:
