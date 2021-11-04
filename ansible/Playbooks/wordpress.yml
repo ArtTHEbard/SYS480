@@ -119,4 +119,10 @@
           dest: "/var/secret/db_password.txt"
           block: {{ wp_dp }}
 
-- name: Pull Docker File from Github. 
+- name: Pull Docker File from Github
+  hosts: wordpress
+  tasks: 
+    - name: Pull file from Github
+      get_url: 
+        url: https://github.com/ArtTHEbard/SYS480/blob/main/ansible/files/wordpress.yml
+        dest: /home/{{ansible_user}}/wordpress.yml
