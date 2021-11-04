@@ -126,3 +126,21 @@
       get_url: 
         url: https://github.com/ArtTHEbard/SYS480/blob/main/ansible/files/wordpress.yml
         dest: /home/{{ansible_user}}/wordpress.yml
+
+- name: Run Docker File
+  hosts: wordpress
+  tasks:
+    - name: Create Docker Project Space
+      file: 
+        path: "/home/{{ ansible_user}}/docker/"
+        state: directory
+        mode: 0700
+    - name copy Docker Files
+      copy:
+        src: /home/{{ansible_user}}/wordpress.yml
+        dest: /home/{{ ansible_user}}/docker/wordpress.yml
+    - name: deploy Docker File
+      docker_compose:
+        project_src: /home/{{ ansible_user}}/docker/
+        files:
+        - wordpress.yml
