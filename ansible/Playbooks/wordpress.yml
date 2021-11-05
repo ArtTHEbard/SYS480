@@ -138,9 +138,7 @@
     ansible.builtin.copy:
       src: ../files/docker-compose.yml
       dest: /home/{{ ansible_user }}
-      owner: "{{ ansible_user }}"
-      group: docker
-      mode: '0644'
+    
 
 - name: Run Docker File
   hosts: wordpress
