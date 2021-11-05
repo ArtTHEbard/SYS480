@@ -66,6 +66,7 @@
         - yum-utils
         - device-mapper-persistent-data
         - lvm2
+        - python3
       state: latest
   - name: Add Docker REPO
     get_url:
