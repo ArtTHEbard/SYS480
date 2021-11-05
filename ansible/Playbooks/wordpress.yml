@@ -150,7 +150,7 @@
     docker_compose:
       project_src: /home/{{ ansible_user}}/
       files:
-      - wordpress.yml
+      - docker-compose.yml
     
 - name: bounce the network
   hosts: wordpress
