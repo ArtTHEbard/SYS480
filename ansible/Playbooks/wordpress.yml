@@ -123,7 +123,6 @@
       dest: /home/{{ansible_user}}/wordpress.yml
 
 - name: Run Docker File
-  become: yes
   hosts: wordpress
   tasks:
   - name: Create Docker Project Space
@@ -140,6 +139,7 @@
       project_src: /home/{{ ansible_user}}/docker/
       files:
       - wordpress.yml
+    become: yes
 
 - name: bounce the network
   hosts: wordpress
