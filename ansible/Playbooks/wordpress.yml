@@ -1,6 +1,7 @@
 ## Centos Congif written by Sam Johnson with guidance from Devan Paden.
-- name: centos config
-  hosts: wordpress
+- name: ubuntu config
+  hosts: ubuntu
+  become: yes
   tasks: 
   - name: Create the .ssh directory if it is not there
     file: 
@@ -22,71 +23,87 @@
       path: /etc/sudoers.d/480
       state: touch
       mode: 0440
-    become: yes 
 
   - name: create a drop in entry in /etc/sudoers.d/480
     blockinfile: 
       dest: /etc/sudoers.d/480
       block: "{{ ansible_user }} ALL=(ALL) NOPASSWD: ALL"
-    become: yes
 
   - name: set the hostname
     hostname: 
       name: "{{hostname}}"
-    become: yes
 
   - name: add host to hosts file
     lineinfile: 
       path: /etc/hosts
       line: '127.0.1.1  {{ hostname }}'
-    become: yes
 
   - name: push over the networking script
     template: 
-      src: ../files/ifcfg.j2
-      dest: '/etc/sysconfig/network-scripts/ifcfg-{{device}}'
+      src: files/netplan.j2
+      dest: '/etc/netplan/00-installer-config.yaml'
       mode: 0644
       owner: root
       group: root
       force: yes
-    become: yes
 
 ## Docker config based on script written by Sahil Suri in Linux Juggernaut, as well as commands from my previous install of Docker.  
 - name: docker config
   hosts: wordpress
   become: yes
   tasks:
-  - name: Upgrade
-    yum:
-      name: "*"
+  - name: Install docker Prereqs
+    apt:
+      name: "{{item}}"
       state: latest
-  - name: Install Prereqs
-    yum:
-      name:
-        - yum-utils
-        - device-mapper-persistent-data
-        - lvm2
-        - python-docker
-      state: latest
-  - name: Add Docker REPO
-    get_url:
-      url: https://download.docker.com/linux/centos/docker-ce.repo
-      dest: /etc/yum.repos.d/docker-ce.repo
-  - name: Install Docker
-    yum: 
-      name: docker
-      state: latest
+      update_cache: yes
+    with_items:
+      - apt-transport-https
+      - ca-certificates
+      - curl
+      -software-properties-common
+    tags:
+      - docker
+  - name: Add Docker Key
+    apt-key:
+      url: https://download.docker.com/linux/ubuntu/gpg
+      state: present
+    tags:
+      - docker
+  - name: Set up the stable repository
+    apt_repository:
+      repo: deb [arch=amd64] https://download.docker.com/linux/ubuntu xenial stable
+      state: present
+      update_cache: yes
+    tags:
+      - docker
+  - name: Install docker
+    remote_user: ubuntu
+    apt:
+      name: docker-ce
+      state: present
+      update_cache: yes
+    tags:
+      - docker
   - name: Start Docker
-    service: 
+    service:
       name=docker
       state=started
-      enabled=yes
-  - name: Install Docker Compose
+      enabled=yest
+  - name: Add remote "deployer" user to "docker" group
+    user:
+      name: "deployer"
+      group: "docker"
+      append: yes
+    tags:
+      - docker
+  - name: Install docker-compose
+    remote_user: ubuntu
     get_url: 
-      url: https://github.com/docker/compose/releases/download/v2.1.0/docker-compose-linux-x86_64
-      dest: /usr/local/bin/docker-compose"
-      mode: +x
-    
+      url : https://github.com/docker/compose/releases/download/1.25.1-rc1/docker-compose-Linux-x86_64
+      dest: /usr/local/bin/docker-compose
+      mode: 'u+x,g+x'
+ 
 - name: Create secrets
   hosts: wordpress
   become: yes
@@ -133,12 +150,11 @@
       files:
       - wordpress.yml
     
-
 - name: bounce the network
   hosts: wordpress
   tasks:
   - name: Bounce Network
-    shell: "sleep 5 && systemctl restart network"
+    shell: "sleep 5 && netplan apply"
     async: 1
     poll: 0
   become: yes
