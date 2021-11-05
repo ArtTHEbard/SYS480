@@ -40,7 +40,7 @@
 
   - name: push over the networking script
     template: 
-      src: files/netplan.j2
+      src: ../files/netplan.j2
       dest: '/etc/netplan/00-installer-config.yaml'
       mode: 0644
       owner: root
