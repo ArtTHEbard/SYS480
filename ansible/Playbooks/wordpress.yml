@@ -144,6 +144,6 @@
   become: yes
   tasks:
   - name: Bounce Network
-      shell: "sleep 5 && systemctl restart network"
+    shell: "sleep 5 && systemctl restart network"
       async: 1
       poll: 0
