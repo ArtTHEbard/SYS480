@@ -83,8 +83,9 @@
       enabled=yes
   - name: Install Docker Compose
     get_url: 
-      url: https://github.com/docker/compose/releases/download/1.27.4/docker-compose-$(uname -s)-$(uname -m)
+      url: https://github.com/docker/compose/releases/download/v2.1.0/docker-compose-linux-x86_64
       dest: /usr/local/bin/docker-compose"
+      mode: +x
     
 - name: Create secrets
   hosts: wordpress
