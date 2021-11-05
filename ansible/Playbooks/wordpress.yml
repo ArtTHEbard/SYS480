@@ -125,18 +125,9 @@
 - name: Run Docker File
   hosts: wordpress
   tasks:
-  - name: Create Docker Project Space
-    file: 
-      path: "/home/{{ ansible_user}}/docker/"
-      state: directory
-      mode: 0700
-  - name: copy Docker Files
-    copy:
-      src: /home/{{ansible_user}}/wordpress.yml
-      dest: /home/{{ ansible_user}}/docker/wordpress.yml
   - name: deploy Docker File
     docker_compose:
-      project_src: /home/{{ ansible_user}}/docker/
+      project_src: /home/{{ ansible_user}}/
       files:
       - wordpress.yml
     become: yes
