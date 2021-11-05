@@ -51,11 +51,6 @@
       force: yes
     become: yes
 
-  - name: bounce the network
-    shell: "sleep 5 && systemctl restart network"
-    become: yes
-    async: 1
-    poll: 0
 ## Docker config based on script written by Sahil Suri in Linux Juggernaut, as well as commands from my previous install of Docker.  
 - name: docker config
   hosts: wordpress
@@ -143,3 +138,12 @@
       project_src: /home/{{ ansible_user}}/docker/
       files:
       - wordpress.yml
+
+- name: bounce the network
+  hosts: wordpress
+  become: yes
+  tasks:
+  - name: Bounce Network
+      shell: "sleep 5 && systemctl restart network"
+      async: 1
+      poll: 0
