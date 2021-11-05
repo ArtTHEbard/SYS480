@@ -1,6 +1,6 @@
 ## Centos Congif written by Sam Johnson with guidance from Devan Paden.
 - name: ubuntu config
-  hosts: ubuntu
+  hosts: wordpress
   become: yes
   tasks: 
   - name: Create the .ssh directory if it is not there
