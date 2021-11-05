@@ -11,9 +11,6 @@ services:
       MYSQL_DATABASE: wordpress
       MYSQL_USER: wp_admin
       MYSQL_PASSWORD: /run/secrets/db_password
-    secrets:
-      - db_root_password
-      - db_password
     
   wordpress:
     depends_on:
@@ -28,8 +25,6 @@ services:
       WORDPRESS_DB_HOST: db:3306
       WORDPRESS_DB_USER: wp_admin
       WORDPRESS_DB_PASSWORD: /run/secrets/db_password
-    secrets:
-      - db_password
 
 secrets: 
   db_password:
