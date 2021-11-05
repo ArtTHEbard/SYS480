@@ -88,6 +88,7 @@
 
 - name: Create secrets
   hosts: wordpress
+  become: yes
   tasks:
   - name: Create secret path
     file:
@@ -122,6 +123,7 @@
       dest: /home/{{ansible_user}}/wordpress.yml
 
 - name: Run Docker File
+  become: yes
   hosts: wordpress
   tasks:
   - name: Create Docker Project Space
