@@ -62,6 +62,7 @@
       - ca-certificates
       - curl
       - software-properties-common
+      - python3-pip
    
   - name: Add Docker Key
     apt_key:
