@@ -62,29 +62,25 @@
       - ca-certificates
       - curl
       -software-properties-common
-    tags:
-      - docker
+   
   - name: Add Docker Key
     apt-key:
       url: https://download.docker.com/linux/ubuntu/gpg
       state: present
-    tags:
-      - docker
+  
   - name: Set up the stable repository
     apt_repository:
       repo: deb [arch=amd64] https://download.docker.com/linux/ubuntu xenial stable
       state: present
       update_cache: yes
-    tags:
-      - docker
+  
   - name: Install docker
     remote_user: ubuntu
     apt:
       name: docker-ce
       state: present
       update_cache: yes
-    tags:
-      - docker
+  
   - name: Start Docker
     service:
       name=docker
@@ -95,8 +91,7 @@
       name: "deployer"
       group: "docker"
       append: yes
-    tags:
-      - docker
+  
   - name: Install docker-compose
     remote_user: ubuntu
     get_url: 
