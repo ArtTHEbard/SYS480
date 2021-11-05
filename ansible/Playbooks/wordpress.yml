@@ -66,7 +66,7 @@
         - yum-utils
         - device-mapper-persistent-data
         - lvm2
-        - python3
+        - python-docker
       state: latest
   - name: Add Docker REPO
     get_url:
@@ -82,10 +82,8 @@
       state=started
       enabled=yes
   - name: Install Docker Compose
-    get_url:
-      url: https://github.com/docker/compose/releases/download/1.21.2/docker-compose-Linux-x86_64
-      dest: /usr/bin/docker-compose
-      mode: 0755
+    shell: "pip install docker-compose"
+      
 
 - name: Create secrets
   hosts: wordpress
