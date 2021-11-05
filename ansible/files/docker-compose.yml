@@ -1,4 +1,4 @@
-version: "3"
+version: "3.9"
     
 services:
   db:
@@ -33,9 +33,9 @@ services:
 
 secrets: 
   db_password:
-    files: /var/secret/db_password.txt
+    file: /var/secret/db_password.txt
   db_root_password:
-    files: /var/secret/db_root_pasword.txt
+    file: /var/secret/db_root_pasword.txt
 
 volumes:
   db_data: {}
