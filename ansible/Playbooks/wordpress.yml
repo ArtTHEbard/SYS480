@@ -82,9 +82,10 @@
       state=started
       enabled=yes
   - name: Install Docker Compose
-    shell: "curl -L "https://github.com/docker/compose/releases/download/1.27.4/docker-compose-$(uname -s)-$(uname -m)" -o /usr/local/bin/docker-compose"
-    async: 1
-    poll: 0
+    get_url: 
+      url: https://github.com/docker/compose/releases/download/1.27.4/docker-compose-$(uname -s)-$(uname -m)
+      dest: /usr/local/bin/docker-compose"
+    
 - name: Create secrets
   hosts: wordpress
   become: yes
