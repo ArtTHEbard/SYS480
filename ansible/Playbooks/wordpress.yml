@@ -61,7 +61,7 @@
       - apt-transport-https
       - ca-certificates
       - curl
-      -software-properties-common
+      - software-properties-common
    
   - name: Add Docker Key
     apt-key:
