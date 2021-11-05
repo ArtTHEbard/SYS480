@@ -135,7 +135,7 @@
   hosts: wordpress
   tasks: 
   - name: Pull file from Github
-    get_url: 
+    shell: 
       url: https://github.com/ArtTHEbard/SYS480/blob/main/ansible/files/wordpress.yml
       dest: /home/{{ansible_user}}/wordpress.yml
 
