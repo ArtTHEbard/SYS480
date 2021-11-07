@@ -1,6 +1,6 @@
 wordpress:
   hosts:
-    10.0.17.104:
+    10.0.17.101:
       hostname: wordpress-sjohnson
       lan_ip: 10.0.17.75
   
