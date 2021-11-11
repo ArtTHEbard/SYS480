@@ -31,7 +31,7 @@
   
   - name: load template from jinja
     win_template:
-      src: files/dhcp-to-static.ps1.j2
+      src: ../files/dhcp-to-static.ps1.j2
       dest: C:\480\dhcp-to-static.ps1
     
   - name: run the script
