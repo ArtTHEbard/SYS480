@@ -14,9 +14,9 @@
       name: "{{ item.name }}"
       path: "{{ item.path }}"
     loop:
-      - { name: 'blue9', path: 'OU=blue9,DC=blue9,DC=local' }
-      - { name: 'Accounts', path: 'OU=Accounts,OU=blue9,DC=blue9,DC=local' }
-      - { name: 'Groups', path: 'OU=Groups,OU=Accounts,OU=blue9,DC=blue9,DC=local' }
-      - { name: 'Computers', path: 'OU=Computers,OU=blue9,DC=blue9,DC=local' }
-      - { name: 'Servers', path: 'OU=Servers,OU=Computers,OU=blue9,DC=blue9,DC=local' }
-      - { name: 'Workstations', path: 'OU=Workstations,OU=Computers,OU=blue9,DC=blue9,DC=local' }
+      - { name: 'blue9', path: 'DC=blue9,DC=local' }
+      - { name: 'Accounts', path: 'OU=blue9,DC=blue9,DC=local' }
+      - { name: 'Groups', path: 'OU=Accounts,OU=blue9,DC=blue9,DC=local' }
+      - { name: 'Computers', path: 'OU=blue9,DC=blue9,DC=local' }
+      - { name: 'Servers', path: 'OU=Computers,OU=blue9,DC=blue9,DC=local' }
+      - { name: 'Workstations', path: 'OU=Computers,OU=blue9,DC=blue9,DC=local' }
