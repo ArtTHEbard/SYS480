@@ -340,3 +340,23 @@ function getIP($name, $server){
     return $form
 }
 
+function getMAC($name, $server){
+    $server = $server
+    try{
+        $defaults = Converter -file "./code/vars.json"
+        Write-Host "File Loaded" -ForegroundColor Green
+    } catch{
+        Write-Host "File not Found" -ForegroundColor Red
+    }
+    if ($server){
+        Connect-Server -server $server
+    }else{
+    Connect-Server -server $defaults.vcenter
+    }
+    $vm = Get-VM -Name $name
+    $mac = $vm.guest.Nics
+    $hostname = $vm.guest.VMName
+    $form = "$mac hostname=$hostname"
+    return $form
+}
+
