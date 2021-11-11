@@ -1,0 +1,3 @@
+netsh interface ip set address "{{ device }}" static "{{ inventory_hostname  }}" "{{ netmask }}" "{{ gateway }}"
+netsh interface ip set dns name="{{ device }}" static "{{ gateway }}"
+Restart-Computer -Force -Confirm:$false
