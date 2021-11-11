@@ -1,6 +1,7 @@
 # Playbook for creating Windows OUs. Inspiration from NTweekly for use of Xactivedirectoy. 
-- Name: Create OU
+- name: Create OU
   hosts: 10.0.5.5
+  gather_facts: no
   tasks: 
   - win_shell: install-packageprovider -name nuget -force
   - name: Install Xactive directory
