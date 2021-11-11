@@ -1,0 +1,24 @@
+---
+- name: Create a Blue Team DC
+  hosts: 10.0.5.5
+  gather_facts: no
+  vars_prompt:
+  - name: adminpass
+    prompt: "What will be the safe mode pass?"
+    private: yes
+  
+  tasks:
+    - name: Create new forest
+      win_domain:
+         dns_domain_name: "{{ domain }}"
+         safe_mode_password: "{{ adminpass}}"
+      register: domain_install
+
+    - name: Reboot after creation
+      when: domain_install.reboot_required
+      win_reboot:
+        msg: "Server config in process: rebooting..."
+        test_command: 'exit (Get-Service -Name DNS).Status -ne "Running"'
+    - name: DNS config
+      win_shell:
+        Add-DnsServerForwarder -IPAddress "{{ gateway }}" -PassThru
