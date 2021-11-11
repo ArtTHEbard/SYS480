@@ -335,28 +335,9 @@ function getIP($name, $server){
     }
     $vm = Get-VM -Name $name
     $ip = $vm.guest.IPAddress[0]
-    $hostname = $vm.guest.VMName
-    $form = "$ip hostname=$hostname"
-    return $form
-}
-
-function getMAC($name, $server){
-    $server = $server
-    try{
-        $defaults = Converter -file "./code/vars.json"
-        Write-Host "File Loaded" -ForegroundColor Green
-    } catch{
-        Write-Host "File not Found" -ForegroundColor Red
-    }
-    if ($server){
-        Connect-Server -server $server
-    }else{
-    Connect-Server -server $defaults.vcenter
-    }
-    $vm = Get-VM -Name $name
     $mac = ($vm | Get-NetworkAdapter)[0].MacAddress
     $hostname = $vm.guest.VMName
-    $form = "$mac hostname=$hostname"
+    $form = "IP=$ip hostname=$hostname MAC=$mac"
     return $form
 }
 
