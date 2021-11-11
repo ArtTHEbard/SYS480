@@ -1,0 +1,22 @@
+# Playbook to set static DHCP lease
+- name: vyos network lease config
+  hosts: vyos
+  vars_prompt:
+  - name: mapping_name
+    prompt: "What is the name for this mapping?"
+    private: no 
+  
+  - name: mac_address
+    prompt: "What is the MAC address you want to map?"
+    private: no
+
+  - name: ip_address
+    prompt: "What IP Address are you going to map?"
+    private: no
+  tasks:
+  - name: configure vyos dhcp static mapping
+    vyos_config:
+      save: yes
+      lines:
+      - set service dhcp-server shared-network-name '{{ shared_network }}' subnet '{{ lan }}' static-mapping '{{ mapping_name }}' ip-address '{{ ip_address }}'
+      - set service dhcp-server shared-network-name '{{ shared_network }}' subnet '{{ lan }}' static-mapping '{{ mapping_name }}' mac-address '{{ mac_address }}'
