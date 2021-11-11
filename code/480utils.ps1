@@ -354,7 +354,7 @@ function getMAC($name, $server){
     Connect-Server -server $defaults.vcenter
     }
     $vm = Get-VM -Name $name
-    $mac = ($vm | Get-NetworkAdapter[0].MacAddress)
+    $mac = ($vm | Get-NetworkAdapter)[0].MacAddress
     $hostname = $vm.guest.VMName
     $form = "$mac hostname=$hostname"
     return $form
