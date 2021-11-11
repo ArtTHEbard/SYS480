@@ -1,0 +1,41 @@
+# Playbook for setting Windows netowkring
+- name: windows-networking
+  hosts: servers
+  gather_facts: no
+  vars_prompt:
+  - name: adminpass
+    prompt: "What will be the password for the local Admin? "
+    prevate: yes
+  
+  tasks:
+  - name: Set the local Admin
+    win_user:
+      name: Administrator
+      password: "{{ adminpass }}"
+      state: present
+      password_never_expires: yes
+
+  - name Change Time Zone
+    win_timezone:
+      timezone: Eastern Standard Time
+    register: timezone
+
+  - name: Set hostname
+    win_hostname:
+      name: "{{ hostname }}"
+  
+  - name: create a deploy directory
+    win_file:
+      path: C:\480
+      state: directory
+  
+  - name: load template from jinja
+    win_template:
+      src: files/dhcp-to-static.ps1.j2
+      dest: C:\480\dhcp-to-static.ps1
+    
+  - name: run the script
+    async: 10
+    poll: 0
+    win_shell: 
+      C:\480\dhcp-to-static.ps1
