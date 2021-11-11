@@ -15,7 +15,7 @@
       state: present
       password_never_expires: yes
 
-  - name Change Time Zone
+  - name: Change Time Zone
     win_timezone:
         timezone: Eastern Standard Time
     register: timezone
