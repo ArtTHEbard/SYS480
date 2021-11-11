@@ -320,7 +320,7 @@ function CreateNetwork ($name, $esxi, $server){
     exit
     }
 }
-function getIP($name, $server){
+function getInfo($name, $server){
     $server = $server
     try{
         $defaults = Converter -file "./code/vars.json"
