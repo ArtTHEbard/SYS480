@@ -16,7 +16,7 @@
       dns_domain_name: "{{ domain }}"
       hostname: "{{ hostname }}"
       domain_admin_user: "Administrator@blue9.local"
-      domain_admin_password: "{{ Admin-pass }}"
+      domain_admin_password: "P@$$Word"
       domain_ou_path: "{{ domain_ou_path }}"
       state: domain
     register: domain-state
