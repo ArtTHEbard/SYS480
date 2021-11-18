@@ -2,7 +2,7 @@
 - name: domain joiner
   hosts: windows
   gather_facts: no
-  var_prompt:
+  vars_prompt:
   - name: Admin-acc
     prompt: "What is the admin account name? (Include the @blue9.local)"
     private: yes
