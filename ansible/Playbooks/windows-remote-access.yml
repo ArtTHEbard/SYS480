@@ -1,0 +1,14 @@
+---
+- name: windows remote access
+  hosts: workstation
+  gather_facts: no
+  tasks: 
+  - name: change Power Plan
+    community.windows.win_power_plan:
+      name: high performance
+
+  - name: Enable RDP
+    win_shell: Set-ItemProperty -Path 'HKLM:\System\CurrentControlSet\Control\Terminal Server' -name "fDenyTSConnections" -Value 0
+    
+  - name: Edit Firewall
+    win_shell: Enable-NetFirewallRule -DisplayGroup "Remote Desktop"
