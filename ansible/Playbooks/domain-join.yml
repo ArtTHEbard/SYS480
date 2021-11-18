@@ -20,10 +20,16 @@
 
   - name: Join Domain
     win_domain_membership:
+      state: domain
       dns_domain_name: "{{ domain }}"
       hostname: "{{ hostname }}"
       domain_admin_user: "{{ acc }}"
       domain_admin_password: "{{ pass }}"
       domain_ou_path: "{{ domain_ou_path }}"
-      state: domain
     register: domain_state
+
+  - name: Reboot after creation
+    when: domain_state.reboot_required
+    win_reboot:
+      msg: "Domain Join in progress; rebooting..."
+      test_command: 'exit (Get-Service -Name WinRM).Status -ne "Running"'
