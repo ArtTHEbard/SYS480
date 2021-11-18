@@ -13,7 +13,7 @@
 
   tasks:
   - name: Change DNS
-    windows.win_dns_client:
+    win_dns_client:
       adapter_name: "{{ device }}"
       dns_servers: "{{ name_servers }}"
 
