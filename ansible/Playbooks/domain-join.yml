@@ -5,7 +5,7 @@
   vars_prompt:
   - name: ACC
     prompt: "What is the admin account name? (Include the @blue9.local)"
-    private: yes
+    private: no
   
   - name: PASS
     prompt: "What is the admin password?"
