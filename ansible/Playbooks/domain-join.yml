@@ -14,7 +14,7 @@
   tasks:
   - ansible.windows.win_domain_membership:
       dns_domain_name: blue9.local
-      hostname: {{ hostname }}
+      hostname: "{{ hostname }}"
       domain_admin_user: {{ Admin-acc }}
       domain_admin_password: {{ Admin-pass }}
       domain_ou_path: "{{domain_ou_path}}"
