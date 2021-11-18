@@ -27,7 +27,7 @@
       state: domain
     register: domain_state
 
-  - name: Reboot when Required:
+  - name: Reboot when Required
     when: domain_state.reboot_required
     win_reboot:
     msg: "Server config in process: rebooting..."
