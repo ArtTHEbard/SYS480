@@ -12,6 +12,10 @@
     private: yes
 
   tasks:
+  - name: Configure DNS
+    ansible.windows.win_dns_client:
+      adapter_names: "{{device}}"
+      dns_servers: "{{name_server}}"
   - win_domain_membership:
       dns_domain_name: "{{ domain }}"
       hostname: "{{ hostname }}"
