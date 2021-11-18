@@ -29,5 +29,4 @@
     register: domain_state
 
   - win_reboot:
-    when: domain_state.reboot_required
       
