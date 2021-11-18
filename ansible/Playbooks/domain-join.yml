@@ -15,7 +15,8 @@
   - name: Change DNS
     win_dns_client:
       adapter_names: "{{ device }}"
-      dns_servers: "{{ name_server }}"
+      ipv4_addresses:
+      - "{{ name_server }}"
 
   - name: Join Domain
     win_domain_membership:
