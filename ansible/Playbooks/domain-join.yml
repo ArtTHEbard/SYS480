@@ -21,6 +21,6 @@
       state: domain
     register: domain-state
 
-  - windows.win_reboot:
+  - ansible.windows.win_reboot:
     when: domain_state.reboot_required
       
