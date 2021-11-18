@@ -1,0 +1,26 @@
+---
+- name: domain joiner
+  hosts: windows
+  gather_facts: no
+  var_prompt:
+  - name: Admin-acc
+    prompt: "What is the admin account name? (Include the @blue9.local)"
+    private: yes
+  
+  - name: Admin-pass
+    prompt: "What is the admin password?"
+    private: yes
+
+  tasks:
+  - ansible.windows.win_domain_membership:
+      dns_domain_name: blue9.local
+      hostname: {{ hostname }}
+      domain_admin_user: {{ Admin-acc }}
+      domain_admin_password: {{ Admin-pass }}
+      domain_ou_path: "{{domain_ou_path}}"
+      state: domain
+    register: domain-state
+
+  - ansible.windows.win_reboot:
+    when: domain_state.reboot_required
+      
