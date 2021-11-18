@@ -1,0 +1,22 @@
+# Playbook for creating Windows OUs. Inspiration from NTweekly for use of Xactivedirectoy. 
+- name: Create OU
+  hosts: 10.0.5.5
+  gather_facts: no
+  tasks: 
+  - win_shell: install-packageprovider -name nuget -force
+  - name: Install Xactive directory
+    win_psmodule:
+       name: ActiveDirectoryDSC
+       state: present
+  - name: Create OU
+    win_dsc:
+      resource_name: ADOrganizationalUnit
+      name: "{{ item.name }}"
+      path: "{{ item.path }}"
+    loop:
+      - { name: 'blue9', path: 'DC=blue9,DC=local' }
+      - { name: 'Accounts', path: 'OU=blue9,DC=blue9,DC=local' }
+      - { name: 'Groups', path: 'OU=Accounts,OU=blue9,DC=blue9,DC=local' }
+      - { name: 'Computers', path: 'OU=blue9,DC=blue9,DC=local' }
+      - { name: 'Servers', path: 'OU=Computers,OU=blue9,DC=blue9,DC=local' }
+      - { name: 'Workstations', path: 'OU=Computers,OU=blue9,DC=blue9,DC=local' }

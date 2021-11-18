@@ -1,0 +1,160 @@
+## Centos Congif written by Sam Johnson with guidance from Devan Paden.
+- name: ubuntu config
+  hosts: wordpress
+  become: yes
+  tasks: 
+  - name: Create the .ssh directory if it is not there
+    file: 
+      path: "/home/{{ ansible_user}}/.ssh"
+      state: directory
+      mode: 0700
+  - name: create authorized_keys file
+    file: 
+      path: "/home/{{ ansible_user }}/.ssh/authorized_keys"
+      state: touch
+      mode: 0644
+  - name: copy over key block and append to auth keys
+    blockinfile: 
+      dest: "/home/{{ ansible_user }}/.ssh/authorized_keys"
+      block: "{{ public_key }}"
+
+  - name: create sudoers dropin file for 480
+    file: 
+      path: /etc/sudoers.d/480
+      state: touch
+      mode: 0440
+
+  - name: create a drop in entry in /etc/sudoers.d/480
+    blockinfile: 
+      dest: /etc/sudoers.d/480
+      block: "{{ ansible_user }} ALL=(ALL) NOPASSWD: ALL"
+
+  - name: set the hostname
+    hostname: 
+      name: "{{hostname}}"
+
+  - name: add host to hosts file
+    lineinfile: 
+      path: /etc/hosts
+      line: '127.0.1.1  {{ hostname }}'
+
+  - name: push over the networking script
+    template: 
+      src: ../files/netplan.j2
+      dest: '/etc/netplan/00-installer-config.yaml'
+      mode: 0644
+      owner: root
+      group: root
+      force: yes
+
+## Docker config based on script written by Sahil Suri in Linux Juggernaut, as well as commands from my previous install of Docker.  
+- name: docker config
+  hosts: wordpress
+  become: yes
+  tasks:
+  - name: Install docker Prereqs
+    apt:
+      name: "{{item}}"
+      state: latest
+      update_cache: yes
+    with_items:
+      - apt-transport-https
+      - ca-certificates
+      - curl
+      - software-properties-common
+      - python3-pip
+   
+  - name: Add Docker Key
+    apt_key:
+      url: https://download.docker.com/linux/ubuntu/gpg
+      state: present
+  
+  - name: Set up the stable repository
+    apt_repository:
+      repo: deb [arch=amd64] https://download.docker.com/linux/ubuntu xenial stable
+      state: present
+      update_cache: yes
+  
+  - name: Install docker
+    apt:
+      name: docker-ce
+      state: present
+      update_cache: yes
+  
+  - name: Start Docker
+    service:
+      name=docker
+      state=started
+      enabled=yes
+  - name: Add remote "deployer" user to "docker" group
+    user:
+      name: "deployer"
+      group: "docker"
+      append: yes
+  
+  - name: Install docker-compose
+    remote_user: ubuntu
+    get_url: 
+      url : https://github.com/docker/compose/releases/download/1.25.1-rc1/docker-compose-Linux-x86_64
+      dest: /usr/local/bin/docker-compose
+      mode: 'u+x,g+x'
+  - name: Install docker module
+    pip: 
+      name: 
+        - docker
+        - docker-compose
+- name: Create secrets
+  hosts: wordpress
+  become: yes
+  tasks:
+  - name: Create secret path
+    file:
+      path: "/var/secret/"
+      state: directory
+      mode: 0700
+  - name: Create secret file 1
+    file:
+      path: "/var/secret/db_password.txt"
+      state: touch
+      mode: 0644
+  - name: Create secret file 2
+    file:
+      path: "/var/secret/db_root_password.txt"
+      state: touch
+      mode: 0644
+  - name: Copy over secret 1
+    blockinfile:
+      dest: "/var/secret/db_password.txt"
+      block: "{{ wp_rp }}"
+  - name: Copy over secret 1
+    blockinfile:
+      dest: "/var/secret/db_password.txt"
+      block: "{{ wp_dp }}"
+
+- name: Pull Docker File
+  hosts: wordpress
+  tasks: 
+  - name: Pull file from Github
+    ansible.builtin.copy:
+      src: ../files/docker-compose.yml
+      dest: /home/{{ ansible_user }}
+    
+
+- name: Run Docker File
+  hosts: wordpress
+  become: yes
+  tasks:
+  - name: deploy Docker File
+    docker_compose:
+      project_src: /home/{{ ansible_user}}/
+      files:
+      - docker-compose.yml
+    
+- name: bounce the network
+  hosts: wordpress
+  tasks:
+  - name: Bounce Network
+    shell: "sleep 5 && netplan apply"
+    async: 1
+    poll: 0
+  become: yes

@@ -320,7 +320,7 @@ function CreateNetwork ($name, $esxi, $server){
     exit
     }
 }
-function getIP($name, $server){
+function getInfo($name, $server){
     $server = $server
     try{
         $defaults = Converter -file "./code/vars.json"
@@ -335,8 +335,9 @@ function getIP($name, $server){
     }
     $vm = Get-VM -Name $name
     $ip = $vm.guest.IPAddress[0]
+    $mac = ($vm | Get-NetworkAdapter)[0].MacAddress
     $hostname = $vm.guest.VMName
-    $form = "$ip hostname=$hostname"
+    $form = "IP=$ip hostname=$hostname MAC=$mac"
     return $form
 }
 

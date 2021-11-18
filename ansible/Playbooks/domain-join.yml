@@ -1,0 +1,32 @@
+---
+- name: domain joiner
+  hosts: windows
+  gather_facts: no
+  vars_prompt:
+  - name: ACC
+    prompt: "What is the admin account name? (Include the @blue9.local)"
+    private: no
+  
+  - name: PASS
+    prompt: "What is the admin password?"
+    private: yes
+
+  tasks:
+  - name: Change DNS
+    win_dns_client:
+      adapter_names: "{{ device }}"
+      ipv4_addresses:
+      - "{{ name_server }}"
+
+  - name: Join Domain
+    win_domain_membership:
+      dns_domain_name: "{{ domain }}"
+      hostname: "{{ hostname }}"
+      domain_admin_user: "Administrator@blue9.local"
+      domain_admin_password: "P@$$Word"
+      domain_ou_path: "{{ domain_ou_path }}"
+      state: domain
+    register: domain_state
+
+  - win_reboot:
+    when: domain_state.reboot_required  

@@ -1,0 +1,15 @@
+- name: centos config
+  hosts: test
+  tasks:
+  - name: Test install
+    yum:
+      name: "*"
+      state: latest
+  - name: Install Prereqs
+    yum:
+      name:
+        - yum-utils
+        - device-mapper-persistent-data
+        - lvm2
+      state: latest
+  become: yes

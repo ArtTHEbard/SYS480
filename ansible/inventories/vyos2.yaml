@@ -1,6 +1,6 @@
 vyos:
   hosts:
-    10.0.17.200:
+    10.0.5.2:
       hostname: Blue9-FW
       lan_ip: 10.0.5.2
       lan: 10.0.5.0/24
