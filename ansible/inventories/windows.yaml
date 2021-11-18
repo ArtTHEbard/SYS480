@@ -3,6 +3,8 @@ windows:
   children:
     servers:
       hosts:
+        10.0.5.5:
+          hostname: Blue9-DC
         10.0.5.6:
           hostname: Blue9-FS
   vars:
