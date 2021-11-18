@@ -13,8 +13,8 @@
 
   tasks:
   - name: Change DNS
-    ansible.windows.win_dns_client:
-      adapter_name: "{{ device }}"
+    win_dns_client:
+      adapter_names: "{{ device }}"
       dns_servers: "{{ name_server }}"
 
   - name: Join Domain
