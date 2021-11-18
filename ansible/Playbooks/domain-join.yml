@@ -22,8 +22,8 @@
     win_domain_membership:
       dns_domain_name: "{{ domain }}"
       hostname: "{{ hostname }}"
-      domain_admin_user: "{{ ACC }}"
-      domain_admin_password: "{ PASS }"
+      domain_admin_user: "Administrator@blue9.local"
+      domain_admin_password: "P@$$Word"
       domain_ou_path: "{{ domain_ou_path }}"
       state: domain
     register: domain_state
