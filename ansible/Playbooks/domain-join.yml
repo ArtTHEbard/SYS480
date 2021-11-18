@@ -3,11 +3,11 @@
   hosts: windows
   gather_facts: no
   vars_prompt:
-  - name: ACC
+  - name: acc
     prompt: "What is the admin account name? (Include the @blue9.local)"
     private: no
   
-  - name: PASS
+  - name: pass
     prompt: "What is the admin password?"
     private: yes
 
@@ -22,11 +22,8 @@
     win_domain_membership:
       dns_domain_name: "{{ domain }}"
       hostname: "{{ hostname }}"
-      domain_admin_user: "Administrator@blue9.local"
-      domain_admin_password: "P@$$Word"
+      domain_admin_user: "{{ acc }}"
+      domain_admin_password: "{{ pass }}"
       domain_ou_path: "{{ domain_ou_path }}"
       state: domain
     register: domain_state
-
-  - win_reboot:
-    when: domain_state.reboot_required  
