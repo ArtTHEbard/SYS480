@@ -30,6 +30,6 @@
   - name: Reboot when Required
     when: domain_state.reboot_required
     win_reboot:
-    msg: "Server config in process: rebooting..."
-        test_command: 'exit (Get-Service -Name WinRM).Status -ne "Running"'
+      msg: "Server config in process: rebooting..."
+      test_command: 'exit (Get-Service -Name WinRM).Status -ne "Running"'
       
