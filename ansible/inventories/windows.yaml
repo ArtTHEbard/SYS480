@@ -5,8 +5,22 @@ windows:
       hosts:
         10.0.5.5:
           hostname: Blue9-DC
+        
         10.0.5.6:
           hostname: Blue9-FS
+      vars:
+        domain_ou_path: "OU=Servers,OU=Computes,OU=blue9,DC=blue9,DC=local"
+
+    workstation:
+      hosts:
+        10.0.5.101:
+          hostname: Blue9-wks1
+        
+        10.0.5.102:
+          hostname: Blue9-wks2
+      vars:
+        domain_ou_path: "OU=Workstations,OU=Computers,OU=blue9,DC=blue9,DC=local"
+
   vars:
     ansible_user: deployer
     device: Ethernet0
