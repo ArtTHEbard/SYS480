@@ -10,4 +10,7 @@
 
   - name: copy chrome msi
     win_copy:
-    src: files/
+    src: ../files/googlechromestandaloneenterprise64.msi
+    dest: C:\480\googlechromestandaloneenterprise64.msi
+
+  - name: 
