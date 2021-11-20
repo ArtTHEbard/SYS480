@@ -1,0 +1,13 @@
+---
+- name: install software
+  hosts: workstation
+  gather_facts: no
+  tasks: 
+  - name: create 480 directory
+    win_file:
+    path: C:\480
+    state: directory
+
+  - name: copy chrome msi
+    win_copy:
+    src: files/
