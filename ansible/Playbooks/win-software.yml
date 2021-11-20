@@ -5,12 +5,43 @@
   tasks: 
   - name: create 480 directory
     win_file:
-    path: C:\480
-    state: directory
+      path: C:\480
+      state: directory
 
   - name: copy chrome msi
     win_copy:
-    src: ../files/googlechromestandaloneenterprise64.msi
-    dest: C:\480\googlechromestandaloneenterprise64.msi
+      src: ../files/googlechromestandaloneenterprise64.msi
+      dest: C:\480\googlechromestandaloneenterprise64.msi
 
-  - name: 
+  - name: copy 7zip
+    win_copy: 
+      src: ../files/7z1900-x64.msi
+      dest: C:\480\7z1900-x64.msi
+
+  - name: copy Putty 
+    win_copy:
+      src: ../files/putty-64bit-0.76-installer.msi
+      dest: C:\480\putty-64bit-0.76-installer.msi
+
+  - name: install Chrome
+    win_package:
+      path: C:\480\googlechromestandaloneenterprise64.msi
+      wait: yes
+      state: present
+
+  - name: install 7zip
+    win_package:
+      path: C:\480\7z1900-x64.msi
+      wait: yes
+      state: present
+
+  - name: install Putty
+    win_package:
+      path: C:\480\putty-64bit-0.76-installer.msi
+      wait: yes
+      state: present
+
+  - name: cleanup 480 directory
+    win_file:
+      path: C:\480
+      state: absent
