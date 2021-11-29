@@ -7,6 +7,12 @@
     community.windows.win_power_plan:
       name: high performance
 
+  - name: Add members to RDP
+    win_group_membership:
+      name: Remote Desktop Users
+      members: Blue9\Domain Admins
+      state: present
+
   - name: Enable RDP
     win_shell: Set-ItemProperty -Path 'HKLM:\System\CurrentControlSet\Control\Terminal Server' -name "fDenyTSConnections" -Value 0
     
