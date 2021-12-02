@@ -13,6 +13,7 @@
       name: "{{ item }}"
       scope: domainlocal
       category: security
+      organizational_unit: "{{ groups_ou }}"
       ignore_protection: yes
     with_items: "{{groupnames.stdout_lines}}"
  
