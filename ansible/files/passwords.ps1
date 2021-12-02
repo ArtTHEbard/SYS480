@@ -19,15 +19,15 @@ function GeneratePassword {
     }
     until (($hasLowerChar + $hasUpperChar + $hasDigit + $hasSymbol) -ge 3)
 
-    $password | ConvertTo-SecureString -AsPlainText
+    $password
 }
 
 $users = Import-Csv ./ansible/files/character-deaths.csv
 
 $header = "name,account_name,group,password"
 
-$accountfile = "accounts.csv"
-$groupfile = "groups.txt"
+$accountfile = "./ansible/files/accounts.csv"
+$groupfile = "./ansible/files/groups.txt"
 
 $account_array = @()
 $group_array = @()
@@ -46,7 +46,7 @@ foreach ($user in $users)
     $account_array += $row
 }
 
-$group = $users | Select-Object -Property Allegiances -Unique
+$groups = $users | Select-Object -Property Allegiances -Unique
 foreach($group in $groups)
 {
     if($group.Allegiances)
