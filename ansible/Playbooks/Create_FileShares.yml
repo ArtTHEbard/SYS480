@@ -7,6 +7,6 @@
     win_share:
       name: Test
       description: test
-      path: C:\test
+      path: C:\\test
       list: yes
       full: Administrators
