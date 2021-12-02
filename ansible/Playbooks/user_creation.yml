@@ -30,7 +30,7 @@
       password: "{{ item.password }}"
       groups:
         - "{{ item.group }}"
-      path: "{{ account_ou }}"
+      path: "{{ accounts_ou }}"
     with_items: "{{ accounts.list }}"
 
 #  - name: loop
