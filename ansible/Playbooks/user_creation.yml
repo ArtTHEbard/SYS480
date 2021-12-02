@@ -5,7 +5,7 @@
   tasks:
   - name: read_csv
     read_csv:
-      path: files/accounts.csv
+      path: ../files/accounts.csv
     register: accoutns
     delegate_to: 127.0.0.1
 
