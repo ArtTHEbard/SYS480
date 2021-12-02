@@ -22,7 +22,7 @@ function GeneratePassword {
     $password | ConvertTo-SecureString -AsPlainText
 }
 
-$users = Import-Csv ./files/character-deaths.csv
+$users = Import-Csv ./ansible/files/character-deaths.csv
 
 $header = "name,account_name,group,password"
 
@@ -36,5 +36,26 @@ $account_array += $header
 
 foreach ($user in $users)
 {
-    Write-Host $user.name
+    $account_name=$user.name.ToLower()
+    $account_name= $account_name -replace '\$','.'
+    $group_name=$user.allegiances.ToLower()
+    $group_name=$group_name -replace '\$','_'
+    
+    $pw=GeneratePassword(12)
+    $row = "{0},{1},{2},{3}" -f $user.name, $account_name, $group_name, $pw
+    $account_array += $row
 }
+
+$group = $users | Select-Object -Property Allegiances -Unique
+foreach($group in $groups)
+{
+    if($group.Allegiances)
+    {
+        $group_name = $group.Allegiances.ToLower()
+        $group_name = $group_name -replace '\$','_'
+        $group_array += $group_name
+    }
+}
+
+$account_array | Out-File $accountfile
+$group_array | Out-File $groupfile
