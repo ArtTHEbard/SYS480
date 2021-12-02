@@ -10,7 +10,7 @@
 
   - name: Create Groups
     win_domain_group:
-      name: {{ item }}
+      name: "{{ item }}"
       scope: domainlocal
       category: security
       ignore_protection: yes
