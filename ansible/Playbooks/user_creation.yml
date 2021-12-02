@@ -15,7 +15,7 @@
     with_items: "{{ accounts.list }}"
 
   - name: group_file
-    command: cat files/groups.txt
+    command: cat ../files/groups.txt
     register: groupnames
     delegate_to: 127.0.0.1
 
