@@ -1,0 +1,24 @@
+#This Playbook parses a csv file to create AD users
+- name AD Users Creation
+  hosts: 10.0.5.5
+
+  tasks:
+  - name: read_csv
+    read_csv:
+      path: files/accounts.csv
+    register: accoutns
+    delegate_to: 127.0.0.1
+
+  - name: loop
+    debug:
+      msg: "{{ item.account_name }} - {{ item.group }}"
+    with_items: "{{ accounts.lists }}"
+
+  - name: group_file
+    command: cat files/groups.txt
+    register: groupnames
+    delegate_to: 127.0.0.1
+
+  - name: loop 2
+    debug:
+      msg:
