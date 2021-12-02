@@ -1,7 +1,6 @@
 #This Playbook parses a csv file to create AD users
 - name: AD Users Creation
   hosts: 10.0.5.5
-  tasks:
   vars_prompt:
   - name: acc
     prompt: "What is the new admin account name?"
@@ -10,15 +9,15 @@
   - name: pass
     prompt: "What is the new admin password?"
     private: yes
-
+  tasks:
   - name: add new domain admin
     win_domain_user:
-      name: {{ acc }}
-      password: {{ pass }}
+      name: '{{ acc }}'
+      password: '{{ pass }}'
       state: present
       groups:
         - Domain Admins
-        
+
   - name: read group_file
     command: cat ../files/groups.txt
     register: groupnames
