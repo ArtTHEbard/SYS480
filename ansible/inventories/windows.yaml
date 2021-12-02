@@ -1,4 +1,4 @@
-windows:
+all:
   hosts:
   children:
     servers:
@@ -10,7 +10,7 @@ windows:
           hostname: Blue9-FS
       vars:
         domain_ou_path: "OU=Servers,OU=Computers,OU=blue9,DC=blue9,DC=local"
-
+        ansible_shell_type: powershell
     workstation:
       hosts:
         10.0.5.85:
@@ -20,7 +20,7 @@ windows:
           hostname: Blue9-wks2
       vars:
         domain_ou_path: "OU=Workstations,OU=Computers,OU=blue9,DC=blue9,DC=local"
-
+        ansible_shell_type: powershell
   vars:
     ansible_user: deployer
     device: Ethernet0
@@ -28,4 +28,4 @@ windows:
     gateway: 10.0.5.2
     name_server: 10.0.5.5
     domain: blue9.local
-    ansible_shell_type: powershell
+    
