@@ -1,0 +1,12 @@
+# Playbook to create group sepcific file shares. 
+- name: Create shares
+  hosts: 10.0.5.6
+  tasks:
+
+  - name: Create Share
+    win_share:
+      name: Test
+      description: test
+      path: C:\shares\test
+      list: yes
+      full: Administrators
