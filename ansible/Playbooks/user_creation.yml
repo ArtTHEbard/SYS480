@@ -14,7 +14,7 @@
       scope: domainlocal
       category: security
       ignore_protection: yes
-    with_items: "{{groupnames.stout_lines}}"
+    with_items: "{{groupnames.stdout_lines}}"
  
   - name: read_csv
     read_csv:
