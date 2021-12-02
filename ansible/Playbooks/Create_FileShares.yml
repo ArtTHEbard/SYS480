@@ -2,6 +2,11 @@
 - name: Create shares
   hosts: 10.0.5.6
   tasks:
+  
+  - name: read group_file
+    command: cat ../files/groups.txt
+    register: groupnames
+    delegate_to: 127.0.0.1
 
   - name: Install File System
     win_feature:
@@ -9,11 +14,16 @@
       state: present
       include_sub_features: yes
     register: win_feature 
+  
+  - name: Create Share Structures
+    win_file: 
+      path: "C:\shares\{{item}}"
+      state: directory
+    with_items: "{{groupnames.stdout_lines}}"
 
   - name: Create Share
     win_share:
-      name: Test
-      description: test
-      path: C:\shares\test
+      name: {{item}}
+      path: "C:\shares\{{item}}"
       list: yes
-      full: Administrators
+      full: Administrators, {{item}}
