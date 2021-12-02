@@ -17,14 +17,18 @@
   
   - name: Create Share Structures
     win_file: 
-      path: C:\share
+      path: 'C:\share\%vari%'
       state: directory
-    with_items: "{{groupnames.stdout_lines}}"
+    enviroment:
+      vari: '{{item}}'
+    with_items: '{{groupnames.stdout_lines}}'
 
   - name: Create Share
     win_share:
-      name: "{{item}}"
-      path: C:\share\
+      name: '{{item}}'
+      path: 'C:\share\%vari%'
       list: yes
-      full: Administrators, "{{item}}"
+      full: Administrators, '{{item}}'
+    enviroment:
+      vari: '{{item}}'
     with_items: "{{groupnames.stdout_lines}}"
