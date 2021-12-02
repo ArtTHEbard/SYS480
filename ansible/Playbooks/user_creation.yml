@@ -22,4 +22,4 @@
   - name: loop 2
     debug:
       msg: "{{ item }}"
-    with_items: "{{groupnames.stout_lines}}"
+    with_items: "{{groupnames.stdout_lines}}"
