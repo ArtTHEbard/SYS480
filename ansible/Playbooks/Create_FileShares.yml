@@ -23,9 +23,9 @@
 
   - name: Create Share
     win_share:
-      name: "{{ item }}"
+      name: '{{ item }}'
       path: 'C:\share\{{ item }}'
       list: yes
-      full: Administrators, "{{ item }}"
+      full: Administrators, '{{ item }}'
       state: present
     with_items: "{{ groupnames.stdout_lines }}"
