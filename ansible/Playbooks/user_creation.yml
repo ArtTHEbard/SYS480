@@ -6,7 +6,7 @@
   - name: read_csv
     read_csv:
       path: ../files/accounts.csv
-    register: accoutns
+    register: accounts
     delegate_to: 127.0.0.1
 
   - name: loop
