@@ -37,9 +37,9 @@ $account_array += $header
 foreach ($user in $users)
 {
     $account_name=$user.name.ToLower()
-    $account_name= $account_name -replace '\$','.'
+    $account_name= $account_name -replace '\s','.'
     $group_name=$user.allegiances.ToLower()
-    $group_name=$group_name -replace '\$','_'
+    $group_name=$group_name -replace '\s','_'
     
     $pw=GeneratePassword(12)
     $row = "{0},{1},{2},{3}" -f $user.name, $account_name, $group_name, $pw
@@ -52,7 +52,7 @@ foreach($group in $groups)
     if($group.Allegiances)
     {
         $group_name = $group.Allegiances.ToLower()
-        $group_name = $group_name -replace '\$','_'
+        $group_name = $group_name -replace '\s','_'
         $group_array += $group_name
     }
 }
