@@ -24,7 +24,7 @@
   - name: Create Share
     win_share:
       name: "{{item}}"
-      path: C:\share\"{{item}}"
+      path: C:\share\
       list: yes
       full: Administrators, "{{item}}"
     with_items: "{{groupnames.stdout_lines}}"
