@@ -12,7 +12,7 @@
   - name: loop
     debug:
       msg: "{{ item.account_name }} - {{ item.group }}"
-    with_items: "{{ accounts.lists }}"
+    with_items: "{{ accounts.list }}"
 
   - name: group_file
     command: cat files/groups.txt
