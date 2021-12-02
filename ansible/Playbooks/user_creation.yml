@@ -22,8 +22,18 @@
       path: ../files/accounts.csv
     register: accounts
     delegate_to: 127.0.0.1
+  
+  - name: Create Users
+    win_domain_user:
+      name: "{{ item.account_name }}"
+      firstname: "{{ item.name }}"
+      password: "{{ item.password }}"
+      groups:
+        - "{{ item.group }}"
+      path: "{{ account_ou }}"
+    with_items: "{{ accounts.list }}"
 
 #  - name: loop
-#    debug:
-#      msg: "{{ item.account_name }} - {{ item.group }}"
-#    with_items: "{{ accounts.list }}"
+ #   debug:
+ #     msg: "{{ item.account_name }} - {{ item.group }}"
+ #   with_items: "{{ accounts.list }}"
