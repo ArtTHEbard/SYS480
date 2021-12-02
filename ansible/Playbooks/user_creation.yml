@@ -1,5 +1,5 @@
 #This Playbook parses a csv file to create AD users
-- name AD Users Creation
+- name: AD Users Creation
   hosts: 10.0.5.5
 
   tasks:
