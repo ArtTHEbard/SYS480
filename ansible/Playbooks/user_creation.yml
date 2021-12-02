@@ -21,4 +21,5 @@
 
   - name: loop 2
     debug:
-      msg:
+      msg: "{{ item }}"
+    with_items: "{{groupnames.stout_lines}}"
