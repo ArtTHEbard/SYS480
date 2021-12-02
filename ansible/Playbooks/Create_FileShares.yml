@@ -3,6 +3,13 @@
   hosts: 10.0.5.6
   tasks:
 
+  - name: Install File System
+    win_feature:
+      name: File and Storage Services
+      state: present
+      include_sub_features: yes
+    register: win_feature 
+
   - name: Create Share
     win_share:
       name: Test

@@ -32,8 +32,3 @@
         - "{{ item.group }}"
       path: "{{ accounts_ou }}"
     with_items: "{{ accounts.list }}"
-
-#  - name: loop
- #   debug:
- #     msg: "{{ item.account_name }} - {{ item.group }}"
- #   with_items: "{{ accounts.list }}"
