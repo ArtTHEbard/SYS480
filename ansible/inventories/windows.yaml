@@ -13,7 +13,7 @@ all:
         ansible_shell_type: powershell
         accounts_ou: "OU=Accounts,OU=Blue9,DC=blue9,DC=local"
         groups_ou: "OU=Groups,OU=Accounts,OU=blue9,DC=blue9,DC=local"
-        ansible_user: Administrator@BLUE9.LOCAL
+        ansible_user: sjohnson-adm@BLUE9.LOCAL
     workstation:
       hosts:
         10.0.5.85:
