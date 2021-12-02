@@ -26,6 +26,6 @@
       name: '{{item}}'
       path: 'C:\share\{{item}}'
       list: yes
-      full: Administrators
+      full: 'Blue9\Domain Admins', 'Blue9\{{item}}'
       state: present
     with_items: "{{groupnames.stdout_lines}}"
