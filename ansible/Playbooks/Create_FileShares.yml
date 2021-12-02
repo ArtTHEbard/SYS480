@@ -23,7 +23,7 @@
 
   - name: Create Share
     win_share:
-      name: {{item}}
+      name: "{{item}}"
       path: "C:\shares\{{item}}"
       list: yes
-      full: Administrators, {{item}}
+      full: Administrators, "{{item}}"
