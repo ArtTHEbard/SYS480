@@ -37,8 +37,8 @@ $account_array += $header
 foreach ($user in $users)
 {
     $account_name=$user.name.ToLower()
-    $account_name= $account_name -replace '(',''
-    $account_name= $account_name -replace ')',''
+    $account_name= $account_name -replace "(",''
+    $account_name= $account_name -replace ")",''
     $account_name= $account_name -replace '\s','.'
     $group_name=$user.allegiances.ToLower()
     $group_name=$group_name -replace '\s','_'
